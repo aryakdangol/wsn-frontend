@@ -2,7 +2,7 @@ import React from 'react';
 import {FaBars} from 'react-icons/fa';
 import {Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavItem, NavLinks, NavBtn, NavBtnLink} from './navbarelements';
 
-const Navbar = ({toggle}) => {
+const Navbar = ({toggle,Open}) => {
     return (
         <>
             <Nav>
@@ -25,7 +25,7 @@ const Navbar = ({toggle}) => {
                                 <NavLinks to = 'engage'>Engage</NavLinks>
                             </NavItem>
                             <NavBtn>
-                                <NavBtnLink to="/donate">Donate</NavBtnLink>
+                                <NavBtnLink onClick ={Open}>Login</NavBtnLink>
                             </NavBtn>
                         </NavMenu>
                         

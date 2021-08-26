@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Button } from '../ButtonElements'
-// import image from '../../images/image.jpg';
+import image from '../../images/check2.png';
 
 import { ArrowForward, ArrowRight, HeroBg, HeroBtnWrapper, HeroContainer, HeroContent, HeroH1, HeroP, PhotosBg } from './HeroElements'
 
@@ -11,9 +11,9 @@ const HeroSection = () => {
         setHover(!hover)
     }
     return (
-        <HeroContainer id = 'home'>
+        <HeroContainer id = 'home' >
             <HeroBg>
-                <PhotosBg ></PhotosBg>
+                <PhotosBg src={image} alt = "Photo"></PhotosBg>
             </HeroBg>
             <HeroContent>
                 <HeroH1>Helping the needful</HeroH1>

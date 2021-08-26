@@ -5,7 +5,7 @@ import {Link as LinkS} from 'react-scroll'
 export const Nav = styled.nav`
     //background: #4D774E;
     background: rgb(22,74,65);
-    background: linear-gradient(90deg, rgba(22,74,65,1) 0%, rgba(77,119,78,1) 44%, rgba(157,200,141,1) 100%);
+    background: #fff;
     height: 80px;
     margin-top: -80px;
     display: flex;
@@ -15,6 +15,7 @@ export const Nav = styled.nav`
     position: sticky;
     top: 0;
     z-index: 10;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 
     @media screen and (max-width: 960px){
         transition: 0.8s all ease;
@@ -34,7 +35,7 @@ export const NavbarContainer = styled.div`
 `
 
 export const NavLogo = styled(LinkR)`
-    color: #fff;
+    color: rgb(22,74,65);
     justify-self: flex-start;
     cursor: pointer;
     font-size: 24px;
@@ -54,7 +55,7 @@ export const MobileIcon = styled.div`
         transform: translate(-100%, 60%);
         font-size: 1.8rem;
         cursor: pointer;
-        color:#fff;
+        color:rgb(22,74,65);
     }
 `
 export const NavMenu = styled.ul`
@@ -74,7 +75,7 @@ export const NavItem = styled.li`
     margin: 0.5rem;
 `
 export const NavLinks = styled(LinkS)`
-    color: #fff;
+    color: rgb(22,74,65);
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -83,7 +84,11 @@ export const NavLinks = styled(LinkS)`
     cursor: pointer;
 
     &.active{
-        border-bottom: 3px solid #F1B24A;
+        
+    }
+    &:hover{
+        transition: akk 0.2s ease-in-out;
+        color: #F1B24A;
     }
 `
 export const NavBtn = styled.nav`
@@ -95,12 +100,12 @@ export const NavBtn = styled.nav`
     }
 
 `
-export const NavBtnLink = styled(LinkR)`
+export const NavBtnLink = styled.div`
     border-radius: 50px;
-    background: #F1B24A;
+    background: rgb(22,74,65);
     white-space: nowrap;
     padding: 10px 20px;
-    color: #164A41;
+    color:#fff;
     font-size: 16px;
     outline: none;
     border: none;
@@ -109,8 +114,8 @@ export const NavBtnLink = styled(LinkR)`
     text-decoration: none;
 
     &:hover{
-        transition: akk 0.2s ease-in-out;
-        background: #9DC88D;
-        color: #fff;
+        transition: 0.2s ease-in-out;
+        background: #F1B24A;
+        color: #164A41;
     }
 `
