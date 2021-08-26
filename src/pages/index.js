@@ -9,7 +9,7 @@ import Sidebar from '../components/Sidebar'
 const Home = () => {
     const[isOpen, setIsOpen] = useState(false)
 
-    const toggle = () => {
+    const toggle = () => { 
         setIsOpen(!isOpen)
     }
     const[Clicked, setOpen] = useState(false)

@@ -18,7 +18,7 @@ const HeroSection = () => {
             <HeroContent>
                 <HeroH1>Helping the needful</HeroH1>
                 <HeroP>Kind based donation platform.</HeroP>
-                <HeroBtnWrapper>
+                <HeroBtnWrapper >
                     <Button to ="donate" onMouseEnter ={onHover} onMouseLeave ={onHover} primary='true' dark='true'>
                         Donate {hover ? <ArrowForward />: <ArrowRight />}
                     </Button>

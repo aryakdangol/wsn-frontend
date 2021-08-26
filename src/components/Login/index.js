@@ -3,7 +3,6 @@ import { LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Subm
 
 const Login = ({Clicked, Open}) => {
     return (
-        
         <LoginContainer Clicked ={Clicked}  action = "">
             <LoginBox>
             <LoginHeader>
