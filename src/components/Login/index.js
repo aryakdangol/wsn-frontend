@@ -1,9 +1,10 @@
 import React from 'react'
-import { LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Submit, Username } from './loginElements'
+import { LoginBox,LoginBackground, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Submit, Username } from './loginElements'
 
 const Login = ({Clicked, Open}) => {
     return (
-        <LoginContainer Clicked ={Clicked}  action = "">
+        <LoginBackground Clicked={Clicked} onClick={Open} action="">
+        <LoginContainer >
             <LoginBox>
             <LoginHeader>
                 Start Donating
@@ -26,6 +27,7 @@ const Login = ({Clicked, Open}) => {
 
             </SignUp>
         </LoginContainer>
+        </LoginBackground>
     )
 }
 
