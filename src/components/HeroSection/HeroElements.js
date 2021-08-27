@@ -52,7 +52,7 @@ export const HeroContent = styled.div`
 
 export const HeroH1 = styled.h1`
     color: rgb(22,74,65);
-    font-size: 3vw;
+    font-size: 4vw;
     text-align: center;
 
     @media screen and (max-width: 768px){
@@ -66,7 +66,7 @@ export const HeroH1 = styled.h1`
 export const HeroP = styled.p`
     margin-top: 20px;
     color: rgb(22,74,65);
-    font-size: 24px;
+    font-size: 2.3vw;
     text-align: center;
     max-width: 600px;
 

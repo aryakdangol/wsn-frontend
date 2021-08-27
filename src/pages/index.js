@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection'
 import InfoSection from '../components/InfoSection'
 import { homeObjOne, homeObjThree, homeObjTwo } from '../components/InfoSection/data'
 import Login from '../components/Login'
+import Background from '../components/Login/background'
 import Navbar from '../components/navbar'
 import Sidebar from '../components/Sidebar'
 
@@ -22,6 +23,7 @@ const Home = () => {
         <>
             <Sidebar isOpen={isOpen} toggle={toggle}/>
             <Login Clicked = {Clicked} Open={Open}/>
+            <Background Clicked = {Clicked} Open={Open}/>
             <Navbar toggle={toggle}  Open={Open}/>
             <HeroSection />
             <InfoSection {...homeObjOne}/>

@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 
 export const LoginBackground=styled.div`
-position: fixed;
-align-items: center;
-height: 120vh;
-z-index: 100;
-background-color: rgba(0,0,0, 0.5);
-width: 100%;
-opacity:${({Clicked})=>Clicked? '100%': '0%'}
-`
+    position: fixed;
+    align-items: center;
+    z-index:998;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.5);
+    width: 100%;
+    opacity:${({Clicked})=>Clicked ? '100%': '0'};
+    top: ${({ Clicked }) => ( Clicked ? '0' : '-100%')};
+    `
 
 export const LoginContainer = styled.div`
     //background: rgb(22,74,65);
@@ -20,13 +22,11 @@ export const LoginContainer = styled.div`
     align-items: center;
     /* padding: 0 20px; */
     height: 80vh;
-    
     z-index:999;
     left: 30%;
-    top: 25%;
     transition: 0.3s ease-in-out;
-    opacity: 100%;
-    /* opacity: ${({ Clicked }) => ( Clicked ? '100%' : '0%')}; */
+    top: ${({ Clicked }) => ( Clicked ? '15%' : '-100%')};
+    
     
     `
 export const LoginHeader = styled.h2`
