@@ -1,30 +1,38 @@
-import React from 'react'
-import { LoginBackground,LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Submit, Username } from './loginElements'
+import React,{useState} from 'react'
+import { LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Submit, Username } from './loginElements'
 
-const Login = ({Clicked, Open}) => {
+const Login = ({Clicked}) => {
+    const[isSignUp, setSignUp] = useState(false)
+
+    const showSign = () => {
+        setSignUp(!isSignUp)
+    }
+    let head = (isSignUp ? 'SIGNUP':'LOGIN');
     return (
-            <LoginContainer Clicked={Clicked}>
+        <LoginContainer Clicked={Clicked}>
             <LoginBox>
-            <LoginHeader>
-                Start Donating
-            </LoginHeader>
+                <LoginHeader>
+                    {head}
+                </LoginHeader>
+                
                 <Username type = "text" placeholder= "Username">
-
                 </Username>
-                <PhoneNum type = "tel"  placeholder= "Phone number">
 
+                <PhoneNum isSignUp ={isSignUp} type = "tel"  placeholder= "Phone number">
                 </PhoneNum>
-                <Password type = "password"  placeholder= "Password">
 
+                <Password type = "password"  placeholder= "Password">
                 </Password>
-                <Submit type = "submit">
+
+                <Submit type = "submit" isSignUp ={isSignUp}>
                     Login
                 </Submit>
-            </LoginBox>
-            
-            <SignUp>
 
-            </SignUp>
+                <SignUp onClick ={showSign}>
+                    SignUp
+                </SignUp>
+
+            </LoginBox>
         </LoginContainer>
         
     )

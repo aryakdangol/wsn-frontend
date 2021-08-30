@@ -25,23 +25,9 @@ export const LoginContainer = styled.div`
     z-index:999;
     left: 30%;
     transition: 0.3s ease-in-out;
-    top: ${({ Clicked }) => ( Clicked ? '15%' : '-100%')};
+    top: ${({ Clicked }) => ( Clicked ? '15%' : '-200%')};
     
     
-    `
-export const LoginHeader = styled.h2`
-    color: rgb(22,74,65);
-    font-size: 48px;
-    text-align: center;
-    padding: 40px;
-
-    @media screen and (max-width: 768px){
-        font-size: 40px;
-    }
-
-    @media screen and (max-width: 480px){
-        font-size: 32px;
-    }
     `
 
 export const LoginBox = styled.div`
@@ -55,9 +41,25 @@ export const LoginBox = styled.div`
     width: 500px;
     background:pink;
     border-radius: 50px;
-    opacity: 100% ;
     
+`
+
+export const LoginHeader = styled.h2`
+    color: rgb(22,74,65);
+    font-size: 48px;
+    text-align: center;
+    padding: 40px;
+    
+
+    @media screen and (max-width: 768px){
+        font-size: 30px;
+    }
+
+    @media screen and (max-width: 480px){
+        font-size: 20px;
+    }
     `
+
 
 export const Username = styled.input`
     height: 42px;
@@ -68,7 +70,7 @@ export const PhoneNum = styled.input`
     height: 42px;
     width: 288px;
     margin: 0 0 10px 0;
-
+    display: ${({isSignUp}) => (isSignUp ? '':'none')};
     `
 
 export const Password = styled.input`
@@ -81,13 +83,36 @@ export const Password = styled.input`
 export const Submit = styled.button`
     height: 50px;
     width: 288px;
-    margin: 8 0 16px 0;
+    margin: 8px 0 16px 0;
     border: 1px solid rgb(22,74,65);
     color: rgb(22,74,65);
     padding: 16px;
     background-color: transparent;
+    cursor: pointer;
+    display: ${({isSignUp}) => (isSignUp ? 'none':'')};
+    
+    &:hover{
+        background-color: black;
+        transition: all 0.1s ease-in-out;
+        color: wheat;
+    }
+
     `
 
-export const SignUp = styled.div`
-    
+export const SignUp = styled.button`
+    height: 50px;
+    width: 288px;
+    margin: 0 0 16px 0;
+    border: 1px solid rgb(22,74,65);
+    color: rgb(22,74,65);
+    padding: 16px;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover{
+        background-color: black;
+        transition: all 0.1s ease-in-out;
+        color: wheat;
+    }
+
     `
