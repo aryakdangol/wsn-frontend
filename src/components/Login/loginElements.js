@@ -30,7 +30,7 @@ export const LoginContainer = styled.div`
     
     `
 
-export const LoginBox = styled.div`
+export const LoginBox = styled.form`
     display: flex;
     border: 2px;
     border-color: white;

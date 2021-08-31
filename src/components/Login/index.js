@@ -10,7 +10,7 @@ const Login = ({Clicked}) => {
     let head = (isSignUp ? 'SIGNUP':'LOGIN');
     return (
         <LoginContainer Clicked={Clicked}>
-            <LoginBox>
+            <LoginBox onSubmit ="">
                 <LoginHeader>
                     {head}
                 </LoginHeader>
