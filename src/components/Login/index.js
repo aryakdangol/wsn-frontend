@@ -4,13 +4,14 @@ import { LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Subm
 const Login = ({Clicked}) => {
     const[isSignUp, setSignUp] = useState(false)
 
-    const showSign = () => {
-        setSignUp(!isSignUp)
-    }
+    const showSignUp = (e) => {
+        e.preventDefault();
+        setSignUp(!isSignUp);
+      };
     let head = (isSignUp ? 'SIGNUP':'LOGIN');
     return (
         <LoginContainer Clicked={Clicked}>
-            <LoginBox onSubmit ="">
+            <LoginBox>
                 <LoginHeader>
                     {head}
                 </LoginHeader>
@@ -24,11 +25,11 @@ const Login = ({Clicked}) => {
                 <Password type = "password"  placeholder= "Password">
                 </Password>
 
-                <Submit type = "submit" isSignUp ={isSignUp}>
+                <Submit type = "submit" >
                     Login
                 </Submit>
 
-                <SignUp onClick ={showSign}>
+                <SignUp onClick={(e) => showSignUp(e)}>
                     SignUp
                 </SignUp>
 

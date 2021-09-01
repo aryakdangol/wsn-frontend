@@ -3,7 +3,7 @@ import {LoginBackground } from './loginElements'
 
 const Background = ({Clicked, Open}) => {
     return (
-        <LoginBackground Clicked={Clicked} onClick={Open} action=""></LoginBackground>
+        <LoginBackground Clicked={Clicked} onClick={Open} ></LoginBackground>
         )
 }
 
