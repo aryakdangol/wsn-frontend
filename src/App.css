@@ -8,3 +8,15 @@
 .gallery {
   border-radius: 20px;
 }
+
+a {
+  text-decoration: none !important;
+  font-family: "Encode Sans Expanded", sans-serif !important;
+}
+
+.gallery__container {
+}
+
+.fw {
+  font-weight: 700 !important;
+}
