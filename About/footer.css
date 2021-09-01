@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #a9ebdc;
+}
+
+a {
+    transition: .3s;
+}
+
+a:hover,
+a:active,
+a:focus {
+    outline: none;
+    text-decoration: none;
+}
+
+.footer {
+    position: relative;
+    padding-top: 45px;
+    background: #F0FFF0;
+}
+
+.footer .footer-about,
+.footer .footer-donation,
+.footer .footer-contact,
+.footer .footer-share
+
+ {
+    position: relative;
+    margin-bottom: 45px;
+    color: #999999;
+}
+
+.footer .footer-about h3,
+.footer .footer-contact h3,
+.footer .footer-donation h3,
+.footer.footer-share h3 {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #eeeeee;
+}
+
+.footer .footer-about h3::after,
+.footer .footer-contact h3::after,
+.footer .footer-donation h3::after,
+.footer.footer-share h3::after {
+    position: absolute;
+    content: "";
+    width: 50px;
+    height: 2px;
+    left: 0;
+    bottom: 0;
+    background: #eeeeee;
+}
+
+.footer .footer-social {
+    position: relative;
+    margin-top: 20px;
+}
+
+.footer .footer-social a {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    padding: 6px 0;
+    text-align: center;
+    color: #999999;
+    font-size: 14px;
+    border: 1px solid #999999;
+    border-radius: 35px;
+}
+
+.footer .footer-social a:hover {
+    color: #ffffff;
+    background: #0085ff;
+    border-color: #0085ff;
+}
+
+.footer .footer-contact p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #999999;
+}
+
+.footer .footer-contact i {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #999999;
+}
+
+.footer .footer-contact a:last-child i {
+    margin: 6;
+}
+
+.footer .footer-contact a:hover i {
+    color: #0085ff;
+}
+.footer .footer-contact{
+    float: left;
+    font-size: 0;
+}
+
+.footer .footer-links a {
+    display: block;
+    margin-bottom: 6px;
+    padding-left: 15px;
+    color: #999999;
+}
+
+.footer .footer-links a:last-child {
+    margin: 0;
+}
+
+.footer .footer-links a:hover {
+    color: #0085ff;
+}
+
+.footer .footer-links a::before {
+    position: absolute;
+    content: "\f105";
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    left: 0;
+}
+
+.footer.footer-share {
+    position: relative;
+    text-align: right;
+    padding: auto;grid-auto-flow: column;
+
+}
+
+
+
+
+
+
+
+
+
+      
