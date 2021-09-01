@@ -1,41 +1,46 @@
-import React,{useState} from 'react'
-import { LoginBox, LoginContainer, LoginHeader, Password, PhoneNum, SignUp, Submit, Username } from './loginElements'
+import React, { useState } from "react";
+import {
+  LoginBox,
+  LoginContainer,
+  LoginHeader,
+  Password,
+  PhoneNum,
+  SignUp,
+  Submit,
+  Username,
+} from "./loginElements";
 
-const Login = ({Clicked}) => {
-    const[isSignUp, setSignUp] = useState(false)
+const Login = ({ Clicked }) => {
+  const [isSignUp, setSignUp] = useState(false);
 
-    const showSign = () => {
-        setSignUp(!isSignUp)
-    }
-    let head = (isSignUp ? 'SIGNUP':'LOGIN');
-    return (
-        <LoginContainer Clicked={Clicked}>
-            <LoginBox onSubmit ="">
-                <LoginHeader>
-                    {head}
-                </LoginHeader>
-                
-                <Username type = "text" placeholder= "Username">
-                </Username>
+  const showSign = (e) => {
+    e.preventDefault();
+    setSignUp(!isSignUp);
+  };
+  let head = isSignUp ? "SIGNUP" : "LOGIN";
+  return (
+    <LoginContainer Clicked={Clicked}>
+      <LoginBox onSubmit="">
+        <LoginHeader>{head}</LoginHeader>
 
-                <PhoneNum isSignUp ={isSignUp} type = "tel"  placeholder= "Phone number">
-                </PhoneNum>
+        <Username type="text" placeholder="Username"></Username>
 
-                <Password type = "password"  placeholder= "Password">
-                </Password>
+        <PhoneNum
+          isSignUp={isSignUp}
+          type="tel"
+          placeholder="Phone number"
+        ></PhoneNum>
 
-                <Submit type = "submit" isSignUp ={isSignUp}>
-                    Login
-                </Submit>
+        <Password type="password" placeholder="Password"></Password>
 
-                <SignUp onClick ={showSign}>
-                    SignUp
-                </SignUp>
+        <Submit type="submit" isSignUp={isSignUp}>
+          Login
+        </Submit>
 
-            </LoginBox>
-        </LoginContainer>
-        
-    )
-}
+        <SignUp onClick={(e) => showSign(e)}>SignUp</SignUp>
+      </LoginBox>
+    </LoginContainer>
+  );
+};
 
-export default Login
+export default Login;
