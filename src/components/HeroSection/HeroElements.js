@@ -52,7 +52,9 @@ export const HeroContent = styled.div`
 
 export const HeroH1 = styled.h1`
     color: rgb(22,74,65);
+    font-family:"Encode Sans Expanded" !important;
     font-size: 4vw;
+
     text-align: center;
 
     @media screen and (max-width: 768px){
