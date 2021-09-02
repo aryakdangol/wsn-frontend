@@ -8,9 +8,14 @@
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.1.0",
     "react": "^17.0.2",
+<<<<<<< HEAD
     "react-bootstrap": "^2.0.0-beta.6",
+=======
+>>>>>>> c11c9d745092240446451c1cb146f2784ec12c91
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
+    "react-bootstrap": "^2.0.0-beta.5",
+    "bootstrap": "^5.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-scroll": "^1.8.2",

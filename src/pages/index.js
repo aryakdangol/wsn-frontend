@@ -32,9 +32,9 @@ const Home = () => {
       <Navbar toggle={toggle} Open={Open} />
       <HeroSection />
       <Gallery />
-      {/*     <InfoSection {...homeObjOne} />
+
       <InfoSection {...homeObjTwo} />
-      <InfoSection {...homeObjThree} /> */}
+      <InfoSection {...homeObjThree} />
     </>
   );
 };
