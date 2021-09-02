@@ -16,23 +16,7 @@ function Gallery() {
         <Col md="12">
           <Row className="p-4">
             <Col md="4">
-<<<<<<< HEAD
-              <img src={url} className="img-fluid mb-5 gallery" alt="" />
-              <Card className="bg-dark text-white">
-                <Card.Img src="holder.js/100px270" alt="Card image" />
-                <Card.ImgOverlay>
-                  <Card.Title>Card title</Card.Title>
-                  <Card.Text>
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </Card.Text>
-                  <Card.Text>Last updated 3 mins ago</Card.Text>
-                </Card.ImgOverlay>
-              </Card>
-=======
               <img src={url} className="img-fluid mb-4 gallery" alt="" />
->>>>>>> c11c9d745092240446451c1cb146f2784ec12c91
             </Col>
             <Col md="4">
               <img src={url} className="img-fluid mb-4 gallery" alt="" />

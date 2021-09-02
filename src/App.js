@@ -1,19 +1,16 @@
-<<<<<<< HEAD
-import './App.css';
-import {BrowserRouter as Router} from 'react-router-dom'
-import Home from './pages';
-import "bootstrap/dist/css/bootstrap.min.css";
-=======
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Home from "./pages";
->>>>>>> c11c9d745092240446451c1cb146f2784ec12c91
+import ProductsPage from "./pages/products";
 
 function App() {
   return (
     <Router>
-      <Home />
+      <Switch>
+        <Route path ="/" component = {Home} exact />
+        <Route path ="/products" component = {ProductsPage}/>
+      </Switch>
     </Router>
   );
 }

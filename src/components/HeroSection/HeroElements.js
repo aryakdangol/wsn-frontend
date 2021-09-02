@@ -13,6 +13,7 @@ export const HeroContainer = styled.div`
   //width: 800px;
   position: relative;
   z-index: 1;
+  margin-top: -80px;
 `;
 export const HeroBg = styled.div`
   position: absolute;

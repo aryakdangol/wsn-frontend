@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../ButtonElements";
+import { CUSButton } from "../ButtonElements";
 import image from "../../images/check2.png";
 
 import {
@@ -29,15 +29,15 @@ const HeroSection = () => {
         <HeroH1 className="fw">Helping the needful</HeroH1>
         <HeroP>Kind based donation platform.</HeroP>
         <HeroBtnWrapper>
-          <Button
-            to="donate"
+          <CUSButton
+            to ="/products"
             onMouseEnter={onHover}
             onMouseLeave={onHover}
             primary="true"
             dark="true"
           >
-            Donate {hover ? <ArrowForward /> : <ArrowRight />}
-          </Button>
+            Donations {hover ? <ArrowForward /> : <ArrowRight />}
+          </CUSButton>
         </HeroBtnWrapper>
       </HeroContent>
     </HeroContainer>

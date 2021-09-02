@@ -33,8 +33,8 @@ const Home = () => {
       <HeroSection />
       <Gallery />
 
-      <InfoSection {...homeObjTwo} />
-      <InfoSection {...homeObjThree} />
+      {/* <InfoSection {...homeObjTwo} />
+      <InfoSection {...homeObjThree} /> */}
     </>
   );
 };
