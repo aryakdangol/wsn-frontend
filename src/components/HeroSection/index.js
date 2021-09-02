@@ -22,6 +22,7 @@ const HeroSection = () => {
                     <Button to ="donate" onMouseEnter ={onHover} onMouseLeave ={onHover} primary='true' dark='true'>
                         Donate {hover ? <ArrowForward />: <ArrowRight />}
                     </Button>
+                    
                 </HeroBtnWrapper>
             </HeroContent>
         </HeroContainer>
