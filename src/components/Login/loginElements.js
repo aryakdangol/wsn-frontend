@@ -70,7 +70,8 @@ export const PhoneNum = styled.input`
     height: 42px;
     width: 288px;
     margin: 0 0 10px 0;
-    display: ${({isSignUp}) => (isSignUp ? '':'none')};
+    display: ${({ isSignUp }) => ( isSignUp ? '' : 'none')};
+
     `
 
 export const Password = styled.input`
@@ -89,7 +90,6 @@ export const Submit = styled.button`
     padding: 16px;
     background-color: transparent;
     cursor: pointer;
-    display: ${({isSignUp}) => (isSignUp ? 'none':'')};
     
     &:hover{
         background-color: black;
