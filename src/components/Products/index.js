@@ -5,29 +5,33 @@ import Login from "../Login";
 import Background from "../Login/background";
 import { Container, Row, Col, Card, InputGroup, FormControl, Form, Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Select from 'react-select'
 
 const Products = () => {
   const url =
     "https://neplych.com/wp-content/uploads/2020/07/Timro-Mero-Sath-Lyrics-Pramod-Kharel-Prabisha-Adhikari-1024x576.jpg?x16286";
   
-    const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-  const [Clicked, setOpen] = useState(false);
 
+  const [Clicked, setOpen] = useState(false);
   const Open = () => {
     setOpen(!Clicked);
   };
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
     return (
-      
         <>
         <Sidebar isOpen={isOpen} toggle={toggle} />
         <Login Clicked={Clicked} Open={Open} />
         <Background Clicked={Clicked} Open={Open} />
         <Navbar toggle={toggle} Open={Open} />
+        {/* <Select /> */}
         <Container>
         <Form.Select className=" mb-2 mt-4">
           <option>Choose your location</option>
