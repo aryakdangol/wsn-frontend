@@ -31,7 +31,7 @@ const Products = () => {
         <Login Clicked={Clicked} Open={Open} />
         <Background Clicked={Clicked} Open={Open} />
         <Navbar toggle={toggle} Open={Open} />
-        {/* <Select /> */}
+        <Select />
         <Container>
         <Form.Select className=" mb-2 mt-4">
           <option>Choose your location</option>
