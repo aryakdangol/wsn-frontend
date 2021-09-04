@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FormikForm from "../components/Form";
 import Gallery from "../components/Gallery";
 import HeroSection from "../components/HeroSection";
 import InfoSection from "../components/InfoSection";
@@ -32,7 +33,7 @@ const Home = () => {
       <Navbar toggle={toggle} Open={Open} />
       <HeroSection />
       <Gallery />
-
+      <FormikForm />
       {/* <InfoSection {...homeObjTwo} />
       <InfoSection {...homeObjThree} /> */}
     </>
