@@ -9,11 +9,11 @@ import * as Yup from 'yup'
             password: ''
     }
 
-    const onSubmit = {
-        onSubmit: values => {
+    const onSubmit =  (values, onSubmitProps) => {
             console.log(values)
+            onSubmitProps.setSubmitting(false)
+            onSubmitProps.resetForm()
         }
-    };
 
     const validationSchema = Yup.object({
     // --- This is custom validation --
@@ -48,8 +48,13 @@ const FormikForm = () => {
         initialValues ={initialValues}
         validationSchema ={validationSchema}
         onSubmit ={onSubmit}
+        // validateOnChange = {false} // stopping formik to validate every input on any change and blur event.
+        validateOnBlur ={false}
     >
-        <div>
+        {
+            formik => {
+                return (
+                    <div>
             {/* <form onSubmit ={formik.handleSubmit}> */}
             {/* The Form component is a small wrapper around the html form element that automatically hooks into formiks handle submit method */}
             <Form>
@@ -147,9 +152,15 @@ const FormikForm = () => {
                 {/*--- Validating using formik's ErrorMessage component--- */} 
                 <ErrorMessage name ='password' />
 </div>
-                <button type ='submit'>Submit</button>
+                <button type ='submit' disabled={!formik.isValid || formik.isSubmitting} >
+                    Submit
+                </button>
             </Form>
         </div>
+                )
+            }
+        }
+        
         </Formik>
     )
 };
