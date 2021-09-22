@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { LoginBackground, LoginContainer } from "../Login/loginElements";
 
 const initialValues = {
   username: "",
@@ -55,6 +56,7 @@ const FormikForm = () => {
           <div>
             {/* <form onSubmit ={formik.handleSubmit}> */}
             {/* The Form component is a small wrapper around the html form element that automatically hooks into formiks handle submit method */}
+
             <Form>
               <div>
                 <label htmlFor="username">Username</label>
@@ -63,7 +65,7 @@ const FormikForm = () => {
                   type="text"
                   id="username"
                   name="username"
-
+                  placeholder="Username"
                   // --- manually validating ---
                   // onChange ={formik.handleChange}
                   // onBlur={formik.handleBlur}
@@ -89,7 +91,7 @@ const FormikForm = () => {
                   type="email"
                   id="email"
                   name="email"
-
+                  placeholder="Email"
                   // --- manually validating ---
                   // onChange ={formik.handleChange}
                   // onBlur={formik.handleBlur}
@@ -112,7 +114,7 @@ const FormikForm = () => {
                   type="tel"
                   id="phonenumber"
                   name="phonenumber"
-
+                  placeholder="Number"
                   // --- manually validating ---
                   // onChange ={formik.handleChange}
                   // onBlur={formik.handleBlur}
@@ -135,7 +137,7 @@ const FormikForm = () => {
                   type="password"
                   id="password"
                   name="password"
-
+                  placeholder="Password"
                   // --- manually validating ---
                   // onChange ={formik.handleChange}
                   // onBlur={formik.handleBlur}
