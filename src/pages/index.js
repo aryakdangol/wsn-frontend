@@ -8,7 +8,7 @@ import {
   homeObjThree,
   homeObjTwo,
 } from "../components/InfoSection/data";
-import Login from "../components/Login";
+import Login from "../components/Login/Login";
 import Background from "../components/Login/background";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/Sidebar";
@@ -28,12 +28,12 @@ const Home = () => {
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
-      <Login Clicked={Clicked} Open={Open} />
       <Background Clicked={Clicked} Open={Open} />
       <Navbar toggle={toggle} Open={Open} />
       <HeroSection />
       <Gallery />
-      <FormikForm />
+
+      {/* <FormikForm /> */}
       {/* <InfoSection {...homeObjTwo} />
       <InfoSection {...homeObjThree} /> */}
     </>

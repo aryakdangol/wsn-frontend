@@ -14,7 +14,8 @@ import {
 } from "./loginElements";
 
 const initialValues = {
-  username: "",
+  fname: "",
+  lname: "",
   email: "",
   phonenumber: "",
   password: "",
@@ -43,34 +44,23 @@ const validationSchema = Yup.object({
   // },
 
   // --- This is validation using Yup --
-  username: Yup.string().required("Required"),
+  fname: Yup.string().required("Required"),
+  lname: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email format").required("Required"),
   phonenumber: Yup.string().required("Required"),
   password: Yup.string().required("Required"),
 });
 
-const Login = ({ Clicked }) => {
+const LoginF = ({ Clicked }) => {
   const [isSignUp, setSignUp] = useState(false);
 
   const showSign = (e) => {
     e.preventDefault();
     setSignUp(!isSignUp);
   };
-  let head = isSignUp ? "SIGNUP" : "LOGIN";
+  //let head = isSignUp ? "SIGNUP" : "LOGIN";
   return (
     <LoginContainer Clicked={Clicked}>
-      {/* <LoginBox onSubmit="">
-        <LoginHeader>{head}</LoginHeader>
-
-        <Username type="text" placeholder="Username"></Username>
-
-        <PhoneNum
-          isSignUp={isSignUp}
-          type="tel"
-          placeholder="Phone number"
-        ></PhoneNum>
-
-        <Password type="password" placeholder="Password"></Password> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -83,34 +73,63 @@ const Login = ({ Clicked }) => {
             <div>
               {/* <form onSubmit ={formik.handleSubmit}> */}
               {/* The Form component is a small wrapper around the html form element that automatically hooks into formiks handle submit method */}
-
               <Form>
-                <div>
-                  <label htmlFor="username">Username</label>
-                  {/* <input */}
-                  <Field
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
-                    // --- manually validating ---
-                    // onChange ={formik.handleChange}
-                    // onBlur={formik.handleBlur}
-                    // value={formik.values.username}
+                {isSignUp ? (
+                  <>
+                    <div>
+                      <label htmlFor="fname">First Name</label>
+                      {/* <input */}
+                      <Field
+                        type="text"
+                        id="fname"
+                        name="fname"
+                        placeholder="First Name"
+                        // --- manually validating ---
+                        // onChange ={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        // value={formik.values.username}
 
-                    // --- formik helping us
-                    // {...formik.getFieldProps('username')}  -- we are able to further simplify it because the (Field) component
-                    //it will behind the seens hookup inputs to the top level formik component,
-                    //it uses the name attribute to match up with the formik state,
-                    //by default Field will render an input element.
-                  />
+                        // --- formik helping us
+                        // {...formik.getFieldProps('username')}  -- we are able to further simplify it because the (Field) component
+                        //it will behind the seens hookup inputs to the top level formik component,
+                        //it uses the name attribute to match up with the formik state,
+                        //by default Field will render an input element.
+                      />
+                      {/* {formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> :null} */}{" "}
+                      {/* This replacement is possible because the error ErrorMessage component will take care of rendering
+                  //   the error message for the particular field indicated by the name attribute
+                  //   only if the field have been visited and if there exists any errors */}
+                      <ErrorMessage name="fname" />
+                    </div>
+                    <div>
+                      <label htmlFor="lname">Last Name</label>
+                      {/* <input */}
+                      <Field
+                        type="text"
+                        id="lname"
+                        name="lname"
+                        placeholder="Last Name"
+                        // --- manually validating ---
+                        // onChange ={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        // value={formik.values.username}
 
-                  {/* {formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> :null} */}
-                  {/* This replacement is possible because the error ErrorMessage component will take care of rendering
-                    the error message for the particular field indicated by the name attribute
-                    only if the field have been visited and if there exists any errors */}
-                  <ErrorMessage name="username" />
-                </div>
+                        // --- formik helping us
+                        // {...formik.getFieldProps('username')}  -- we are able to further simplify it because the (Field) component
+                        //it will behind the seens hookup inputs to the top level formik component,
+                        //it uses the name attribute to match up with the formik state,
+                        //by default Field will render an input element.
+                      />
+                      {/* {formik.touched.username && formik.errors.username ? <div>{formik.errors.username}</div> :null} */}
+                      {/* This replacement is possible because the error ErrorMessage component will take care of rendering
+                  //   the error message for the particular field indicated by the name attribute
+                  //   only if the field have been visited and if there exists any errors */}
+                      <ErrorMessage name="lname" />
+                    </div>{" "}
+                  </>
+                ) : (
+                  ""
+                )}
                 <div>
                   <label htmlFor="email">Email</label>
                   {/* <input */}
@@ -134,29 +153,35 @@ const Login = ({ Clicked }) => {
 
                   <ErrorMessage name="email" />
                 </div>
-                <div>
-                  <label htmlFor="phonenumber">Number</label>
-                  {/* <input */}
-                  <Field
-                    type="tel"
-                    id="phonenumber"
-                    name="phonenumber"
-                    placeholder="Number"
-                    // --- manually validating ---
-                    // onChange ={formik.handleChange}
-                    // onBlur={formik.handleBlur}
-                    // value={formik.values.phonenumber}
+                {isSignUp ? (
+                  <>
+                    <div>
+                      <label htmlFor="phonenumber">Phone Number</label>
+                      {/* <input */}
+                      <Field
+                        type="tel"
+                        id="phonenumber"
+                        name="phonenumber"
+                        placeholder="Phone Number"
+                        // --- manually validating ---
+                        // onChange ={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        // value={formik.values.phonenumber}
 
-                    // --- formik helping us
-                    // {...formik.getFieldProps('phonenumber')}
-                  />
+                        // --- formik helping us
+                        // {...formik.getFieldProps('phonenumber')}
+                      />
 
-                  {/*--- manually validating ---*/}
-                  {/* {formik.touched.phonenumber && formik.errors.phonenumber ? <div>{formik.errors.phonenumber}</div> :null} */}
+                      {/*--- manually validating ---*/}
+                      {/* {formik.touched.phonenumber && formik.errors.phonenumber ? <div>{formik.errors.phonenumber}</div> :null} */}
 
-                  {/*--- Validating using formik's ErrorMessage component--- */}
-                  <ErrorMessage name="phonenumber" />
-                </div>
+                      {/*--- Validating using formik's ErrorMessage component--- */}
+                      <ErrorMessage name="phonenumber" />
+                    </div>{" "}
+                  </>
+                ) : (
+                  " "
+                )}
                 <div>
                   <label htmlFor="password">Password</label>
                   {/* <input */}
@@ -179,21 +204,21 @@ const Login = ({ Clicked }) => {
                   {/*--- Validating using formik's ErrorMessage component--- */}
                   <ErrorMessage name="password" />
                 </div>
-                <button
+                {/* <button
                   type="submit"
                   disabled={!formik.isValid || formik.isSubmitting}
                 >
                   Submit
-                </button>
+                </button> */}
                 <Submit
                   type="submit"
                   disabled={!formik.isValid || formik.isSubmitting}
-                  isSignUp={isSignUp}
                 >
                   Login
                 </Submit>
 
                 <SignUp
+                  type="submit"
                   disabled={!formik.isValid || formik.isSubmitting}
                   onClick={(e) => showSign(e)}
                 >
@@ -210,4 +235,4 @@ const Login = ({ Clicked }) => {
   );
 };
 
-export default Login;
+export default LoginF;
