@@ -12,6 +12,7 @@ import Login from "../components/Login/Login";
 import Background from "../components/Login/background";
 import Navbar from "../components/navbar";
 import Sidebar from "../components/Sidebar";
+import Donate from "../components/DonateForm/Donate";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +33,7 @@ const Home = () => {
       <Navbar toggle={toggle} Open={Open} />
       <HeroSection />
       <Gallery />
+      <Donate />
 
       {/* <FormikForm /> */}
       {/* <InfoSection {...homeObjTwo} />
