@@ -1,5 +1,6 @@
 import React from "react";
 import { FaBars } from "react-icons/fa";
+import { useHistory } from "react-router";
 import {
   Nav,
   NavbarContainer,
@@ -13,6 +14,12 @@ import {
 } from "./navbarelements";
 
 const Navbar = ({ toggle, Open }) => {
+  const history = useHistory();
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    history.push("/");
+  };
+
   return (
     <>
       <Nav>
@@ -35,7 +42,11 @@ const Navbar = ({ toggle, Open }) => {
               <NavLinks to="engage">Engage</NavLinks>
             </NavItem>
             <NavBtn>
-              <NavBtnLink to="/login">Login</NavBtnLink>
+              {!localStorage.getItem("auth_token") ? (
+                <NavBtnLink to="/login">Login</NavBtnLink>
+              ) : (
+                <NavBtnLink onClick={logout}>Logout</NavBtnLink>
+              )}
             </NavBtn>
           </NavMenu>
         </NavbarContainer>
