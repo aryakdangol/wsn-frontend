@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import axios from "axios";
 import {
   PageWrapper,
   Title,
@@ -11,16 +11,16 @@ import {
   Submit,
 } from "./style";
 import { NavBtnLink } from "../navbar/navbarelements";
+import { useHistory } from "react-router";
+import url from "../../url";
 
 const SignInInitialValues = {
-  email: "",
+  username: "",
   password: "",
 };
 
 const SignInValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("The email is incorrect")
-    .required("Please enter your email"),
+  username: Yup.string().required("Please enter your username"),
   password: Yup.string().required("Please enter your password"),
 });
 
@@ -30,6 +30,8 @@ const Login = () => {
     e.preventDefault();
     setSignUp(!isSignUp);
   };
+  const history = useHistory();
+
   return (
     <PageWrapper>
       <Title>Sign in</Title>
@@ -40,6 +42,21 @@ const Login = () => {
           console.log(values);
           actions.setSubmitting(false);
           actions.resetForm();
+          axios
+            .post(`${url}/user/login`, {
+              username: values.username,
+              password: values.password,
+            })
+            .then((res) => {
+              console.log(res.data);
+              if (res.data.error === "false") {
+                localStorage.setItem("auth_token", res.data.auth);
+                history.push("/products");
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
         }}
       >
         {({ errors, touched, handleSubmit, isSubmitting, isValid }) => {
@@ -47,19 +64,17 @@ const Login = () => {
             <>
               <Form name="login" method="post" onSubmit={handleSubmit}>
                 <Label htmlFor="email">
-                  Email
+                  Username
                   <Input
-                    type="email"
-                    name="email"
+                    type="text"
+                    name="username"
                     autoCapitalize="off"
                     autoCorrect="off"
-                    autoComplete="email"
-                    placeholder="your email"
-                    valid={touched.email && !errors.email}
-                    error={touched.email && errors.email}
+                    autoComplete="name"
+                    placeholder="your username"
                   />
                 </Label>
-                <ErrorMessage name="email">
+                <ErrorMessage name="username">
                   {(msg) => (
                     <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
                   )}

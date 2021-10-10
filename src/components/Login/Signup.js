@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import Swal from "sweetalert2";
 import {
   PageWrapper,
   Title,
@@ -11,22 +11,25 @@ import {
   Submit,
 } from "./style";
 import { NavBtnLink } from "../navbar/navbarelements";
+import axios from "axios";
+import url from "../../url";
+import { useHistory } from "react-router";
 
 const SignUpInitialValues = {
-  fname: "",
-  lname: "",
+  name: "",
+  username: "",
   email: "",
   phonenumber: "",
   password: "",
 };
 
 const SignUpValidationSchema = Yup.object().shape({
-  fname: Yup.string()
+  name: Yup.string()
     .min(2, "Your name is too short")
-    .required("Please enter your first name"),
-  lname: Yup.string()
+    .required("Please enter your  name"),
+  username: Yup.string()
     .min(2, "Your name is too short")
-    .required("Please enter your last name"),
+    .required("Please enter your user name"),
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
@@ -35,6 +38,7 @@ const SignUpValidationSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const history = useHistory();
   return (
     <PageWrapper>
       <Title>Sign up</Title>
@@ -42,9 +46,36 @@ const Signup = () => {
         initialValues={SignUpInitialValues}
         validationSchema={SignUpValidationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          //console.log(values);
           actions.setSubmitting(false);
-          actions.resetForm();
+          //actions.resetForm();
+          axios
+            .post(`${url}/user/register`, {
+              name: values.name,
+              username: values.username,
+              email: values.email,
+              phone: values.phonenumber,
+              password: values.password,
+            })
+            .then((res) => {
+              console.log(res.data);
+              if (res.data.error === "false") {
+                Swal.fire({
+                  icon: "success",
+                  title: "Success",
+                  text: "Account Created Succesfully",
+                });
+                history.push("/login");
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+              Swal.fire({
+                icon: "error",
+                title: "Ooops..",
+                text: e,
+              });
+            });
         }}
       >
         {({ errors, touched, handleSubmit, isSubmitting, isValid }) => {
@@ -52,37 +83,20 @@ const Signup = () => {
             <>
               <Form name="login" method="post" onSubmit={handleSubmit}>
                 <Label htmlFor="fname">
-                  First Name
+                  Name
+                  <Input type="text" id="name" name="name" placeholder="Name" />
+                </Label>
+
+                <Label htmlFor="username">
+                  Username
                   <Input
                     type="text"
-                    id="fname"
-                    name="fname"
-                    placeholder="First Name"
-                    valid={touched.fname && !errors.fname}
-                    error={touched.fname && errors.fname}
+                    id="username"
+                    name="username"
+                    placeholder="User Name"
                   />
                 </Label>
-                {errors.fname && touched.fname && (
-                  <StyledInlineErrorMessage>
-                    {errors.fname}
-                  </StyledInlineErrorMessage>
-                )}
-                <Label htmlFor="lname">
-                  Last Name
-                  <Input
-                    type="text"
-                    id="lname"
-                    name="lname"
-                    placeholder="Last Name"
-                    valid={touched.lname && !errors.lname}
-                    error={touched.lname && errors.lname}
-                  />
-                </Label>
-                {errors.lname && touched.lname && (
-                  <StyledInlineErrorMessage>
-                    {errors.lname}
-                  </StyledInlineErrorMessage>
-                )}
+
                 <Label htmlFor="phonenumber">
                   Phone number
                   <Input

@@ -2,19 +2,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages";
-import ProductsPage from "./pages/products";
-import Login from "./components/Login/Login";
-import Signup from "./components/Login/Signup";
+
+import Routes from "./Routes/Routes";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    return () => {
+      window.addEventListener("beforeunload", function (e) {
+        return localStorage.removeItem("auth_token");
+      });
+    };
+  });
   return (
     <Router>
-      <Switch>
-        <Route path="/" component={Home} exact />
-        <Route path="/products" component={ProductsPage} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-      </Switch>
+      <Routes />
     </Router>
   );
 }
