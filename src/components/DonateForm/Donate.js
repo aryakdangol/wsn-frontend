@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import {
   Col,
   Form,
@@ -21,6 +21,7 @@ const donateInitialValues = {
   state: "",
   zip: "",
   terms: false,
+  file: null,
 };
 
 const donateValidationSchema = Yup.object().shape({
@@ -35,9 +36,16 @@ const donateValidationSchema = Yup.object().shape({
   state: Yup.string().required(),
   zip: Yup.string().required(),
   terms: Yup.bool().required().oneOf([true], "Terms must be accepted"),
+  file: Yup.mixed().required("File is required"),
 });
 
 const Donate = () => {
+  const [selectedFile, setselectedFile] = useState("");
+
+  const imageFn = (events) => {
+    setselectedFile("image", events.target.files[0]);
+    console.log(events.target.files[0]);
+  };
   return (
     <div>
       <Formik
@@ -57,6 +65,7 @@ const Donate = () => {
           handleChange,
           isSubmitting,
           isValid,
+          setFieldValue,
         }) => {
           return (
             <>
@@ -165,6 +174,14 @@ const Donate = () => {
                     id="validationFormik0"
                   />
                 </Form.Group>
+                <input
+                  type="file"
+                  name="file"
+                  onChange={(event) => {
+                    setFieldValue("file", event.currentTarget.files[0]);
+                  }}
+                  value={values.image}
+                />
                 <Button type="submit" disabled={!isValid || isSubmitting}>
                   Submit form
                 </Button>
