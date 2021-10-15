@@ -20,6 +20,9 @@ const donateInitialValues = {
   city: "",
   state: "",
   zip: "",
+  productType: "",
+  size: "",
+  money: [],
   terms: false,
   file: null,
 };
@@ -35,8 +38,13 @@ const donateValidationSchema = Yup.object().shape({
   city: Yup.string().required(),
   state: Yup.string().required(),
   zip: Yup.string().required(),
+  productType: Yup.string().required(),
+  size: Yup.string().when("productType", {
+    is: "wearable",
+    then: Yup.string().required(),
+  }),
   terms: Yup.bool().required().oneOf([true], "Terms must be accepted"),
-  file: Yup.mixed().required("File is required"),
+  file: Yup.mixed().required("We need a photo!"),
 });
 
 const Donate = () => {
@@ -145,6 +153,76 @@ const Donate = () => {
                       {errors.zip}
                     </Form.Control.Feedback>
                   </Form.Group>
+
+                  <Form.Group as={Col} md="3" controlId="validationFormik05">
+                    <Form.Label>Product Type</Form.Label>
+                    <Form.Select
+                      aria-label="Default select example"
+                      name="productType"
+                      value={values.productType}
+                      onChange={handleChange}
+                    >
+                      <option>Select material</option>
+                      <option value="wearable">Wearable</option>
+                      <option value="book">Book</option>
+                      <option value="furniture">Furniture</option>
+                    </Form.Select>
+
+                    <Form.Control.Feedback type="invalid">
+                      {errors.productType}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  {values.productType === "wearable" ? (
+                    <Form.Group as={Col} md="3" controlId="validationFormik05">
+                      <Form.Label>Product Size</Form.Label>
+                      <Form.Select
+                        aria-label="Default select example"
+                        name="size"
+                        value={values.size}
+                        onChange={handleChange}
+                      >
+                        <option>Select size</option>
+                        <option value="Esmall">Extra Small</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="Elarge">Extra Large</option>
+                      </Form.Select>
+
+                      <Form.Control.Feedback type="invalid">
+                        {errors.size}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  ) : (
+                    ""
+                  )}
+
+                  <Form.Group as={Col} md="3" controlId="validationFormik05">
+                    <Form.Label>I can pay for:</Form.Label>
+                    <Form.Check
+                      type="checkbox"
+                      name="money"
+                      label="Courier"
+                      value="courier"
+                      onChange={handleChange}
+                      isValid={touched.money && !errors.money}
+                      isInvalid={touched.money && errors.money}
+                    />
+
+                    <Form.Check
+                      type="checkbox"
+                      name="money"
+                      label="Laundry"
+                      value="laundry"
+                      onChange={handleChange}
+                      isValid={touched.money && !errors.money}
+                      isInvalid={touched.money && errors.money}
+                    />
+
+                    <Form.Control.Feedback type="invalid">
+                      {errors.money}
+                    </Form.Control.Feedback>
+                  </Form.Group>
                 </Row>
                 <Form.Group as={Col} md="4" controlId="validationFormik06">
                   <FloatingLabel
@@ -180,7 +258,6 @@ const Donate = () => {
                   onChange={(event) => {
                     setFieldValue("file", event.currentTarget.files[0]);
                   }}
-                  value={values.image}
                 />
                 <Button type="submit" disabled={!isValid || isSubmitting}>
                   Submit form
