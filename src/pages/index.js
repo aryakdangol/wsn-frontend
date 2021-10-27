@@ -33,7 +33,6 @@ const Home = () => {
       <Navbar toggle={toggle} Open={Open} />
       <HeroSection />
       <Gallery />
-      <Donate />
 
       {/* <FormikForm /> */}
       {/* <InfoSection {...homeObjTwo} />

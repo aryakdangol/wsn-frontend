@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../navbar";
 import Sidebar from "../Sidebar";
 import Login from "../Login/Login";
 import Background from "../Login/background";
@@ -15,10 +14,11 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Select from "react-select";
+import LoggedNav from "../navbar/LoggedNav";
 
 const Products = () => {
   const url =
-    "https://neplych.com/wp-content/uploads/2020/07/Timro-Mero-Sath-Lyrics-Pramod-Kharel-Prabisha-Adhikari-1024x576.jpg?x16286";
+    "https://www.seekpng.com/png/full/117-1179653_donate-icon-life-value-icon.png";
 
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => {
@@ -39,7 +39,7 @@ const Products = () => {
       <Sidebar isOpen={isOpen} toggle={toggle} />
       {/*     <Login Clicked={Clicked} Open={Open} /> */}
       <Background Clicked={Clicked} Open={Open} />
-      <Navbar toggle={toggle} Open={Open} />
+      <LoggedNav />
       <Container className="mt-4 ">
         <Row className="justify-content-md-center">
           <Col md="6">

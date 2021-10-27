@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Gallery() {
   const url =
-    "https://neplych.com/wp-content/uploads/2020/07/Timro-Mero-Sath-Lyrics-Pramod-Kharel-Prabisha-Adhikari-1024x576.jpg?x16286";
+    "https://marketplace.concretecms.com/files/9815/0454/5456/simple_gallery_screenshot_0_1504545456.jpg";
   return (
     <Container fluid className="p-3 gallery__container" id="gallery">
       <Row>

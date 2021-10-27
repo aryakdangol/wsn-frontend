@@ -87,6 +87,22 @@ export const NavLinks = styled(LinkS)`
     color: #f1b24a;
   }
 `;
+export const LinkRouter = styled(LinkR)`
+  color: rgb(22, 74, 65);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+
+  &.active {
+  }
+  &:hover {
+    transition: akk 0.2s ease-in-out;
+    color: #f1b24a;
+  }
+`;
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
