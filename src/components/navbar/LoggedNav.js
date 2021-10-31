@@ -14,7 +14,7 @@ import {
   LinkRouter,
 } from "./navbarelements";
 
-const Navbar = ({ toggle, Open }) => {
+const LoggedNav = ({ toggle, Open }) => {
   const history = useHistory();
   const logout = () => {
     localStorage.removeItem("auth_token");
@@ -33,21 +33,8 @@ const Navbar = ({ toggle, Open }) => {
             <NavItem>
               <LinkRouter to="/">Home</LinkRouter>
             </NavItem>
-            <NavItem>
-              <NavLinks to="gallery">Gallery</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks to="about">About</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks to="engage">Engage</NavLinks>
-            </NavItem>
             <NavBtn>
-              {!localStorage.getItem("auth_token") ? (
-                <NavBtnLink to="/login">Login</NavBtnLink>
-              ) : (
-                <NavBtnLink onClick={logout}>Logout</NavBtnLink>
-              )}
+              <NavBtnLink to="/donate">Donate</NavBtnLink>
             </NavBtn>
           </NavMenu>
         </NavbarContainer>
@@ -56,4 +43,4 @@ const Navbar = ({ toggle, Open }) => {
   );
 };
 
-export default Navbar;
+export default LoggedNav;
