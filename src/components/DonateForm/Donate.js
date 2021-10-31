@@ -11,7 +11,6 @@ import {
 import * as Yup from "yup";
 
 const donateInitialValues = {
-  username: "",
   // type: "",
   // size: "",
   // count: "",
