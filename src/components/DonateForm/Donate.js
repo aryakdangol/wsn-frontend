@@ -9,8 +9,11 @@ import {
   FloatingLabel,
 } from "react-bootstrap";
 import * as Yup from "yup";
+import axios from "axios";
+import url from "../../url";
 
 const donateInitialValues = {
+  username: "",
   // type: "",
   // size: "",
   // count: "",
@@ -50,8 +53,27 @@ const Donate = () => {
   const [selectedFile, setselectedFile] = useState("");
 
   const imageFn = (events) => {
-    setselectedFile("image", events.target.files[0]);
-    console.log(events.target.files[0]);
+    setselectedFile(events.target.files[0]);
+  };
+
+  const uploadFile = async (values) => {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("userId", "613ce79004d155338cbfc7dd");
+    formData.append("city", values.city);
+    formData.append("state", values.state);
+    formData.append("zip", values.zip);
+    formData.append("material_type", values.productType);
+    formData.append("size", values.size);
+    formData.append("canPay", values.money);
+    formData.append("description", values.description);
+    console.log(formData);
+    try {
+      await axios.post(`${url}/product`, formData);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(selectedFile);
   };
   return (
     <div>
@@ -59,6 +81,7 @@ const Donate = () => {
         initialValues={donateInitialValues}
         validationSchema={donateValidationSchema}
         onSubmit={(values, actions) => {
+          uploadFile(values);
           console.log(values);
           actions.setSubmitting(false);
           actions.resetForm();
@@ -204,8 +227,8 @@ const Donate = () => {
                       label="Courier"
                       value="courier"
                       onChange={handleChange}
-                      isValid={touched.money && !errors.money}
-                      isInvalid={touched.money && errors.money}
+                      // isValid={touched.money && !errors.money}
+                      // isInvalid={touched.money && errors.money}
                     />
 
                     <Form.Check
@@ -214,8 +237,8 @@ const Donate = () => {
                       label="Laundry"
                       value="laundry"
                       onChange={handleChange}
-                      isValid={touched.money && !errors.money}
-                      isInvalid={touched.money && errors.money}
+                      // isValid={touched.money && !errors.money}
+                      // isInvalid={touched.money && errors.money}
                     />
 
                     <Form.Control.Feedback type="invalid">
@@ -256,7 +279,9 @@ const Donate = () => {
                   name="file"
                   onChange={(event) => {
                     setFieldValue("file", event.currentTarget.files[0]);
+                    imageFn(event);
                   }}
+                  required
                 />
                 <Button type="submit" disabled={!isValid || isSubmitting}>
                   Submit form
