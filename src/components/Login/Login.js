@@ -51,6 +51,7 @@ const Login = () => {
               console.log(res.data);
               if (res.data.error === "false") {
                 localStorage.setItem("auth_token", res.data.auth);
+                localStorage.setItem("userId", res.data.data.userId);
                 history.push("/products");
               }
             })

@@ -6,6 +6,7 @@ import Home from "../pages";
 import ProductsPage from "../components/Products/index";
 import PrivateRoute from "./PrivateRoute";
 import DonatePage from "../pages/donate";
+import MyOrders from "../components/Orders/MyOrders";
 
 function Routes() {
   return (
@@ -13,6 +14,7 @@ function Routes() {
       <Route path="/" component={Home} exact />
       <PrivateRoute path="/products" component={ProductsPage} />
       <PrivateRoute path="/donate" component={DonatePage} />
+      <PrivateRoute path="/orders" component={MyOrders} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
     </Switch>
