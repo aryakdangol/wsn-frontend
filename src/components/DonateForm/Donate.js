@@ -25,8 +25,8 @@ const donateInitialValues = {
   productType: "",
   size: "",
   money: [],
-  terms: false,
-  file: null,
+  terms: "",
+  file: "",
 };
 
 const donateValidationSchema = Yup.object().shape({
@@ -264,15 +264,17 @@ const Donate = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Check
-                    required
                     name="terms"
                     label="Agree to terms and conditions"
                     onChange={handleChange}
                     isValid={touched.terms && !errors.terms}
-                    feedback={errors.terms}
-                    feedbackType="invalid"
-                    id="validationFormik0"
+                    // isInvalid={touched.terms && errors.terms}
+                    value={errors.terms}
+                    id="validationFormik10"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.terms}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <input
                   type="file"
@@ -281,7 +283,6 @@ const Donate = () => {
                     setFieldValue("file", event.currentTarget.files[0]);
                     imageFn(event);
                   }}
-                  required
                 />
                 <Button type="submit" disabled={!isValid || isSubmitting}>
                   Submit form
