@@ -92,7 +92,11 @@ const Products = () => {
                   <InputGroup className="mb-2">
                     <Form>
                       <Form.Check type="checkbox" label="Pay for courier" />
-                      <Form.Check type="checkbox" label="Pay for laundary" />
+                      {product.material_type === "wearable" ? (
+                        <Form.Check type="checkbox" label="Pay for laundary" />
+                      ) : (
+                        ""
+                      )}
                     </Form>
                   </InputGroup>
                   <Col>

@@ -18,6 +18,7 @@ const LoggedNav = ({ toggle, Open }) => {
   const history = useHistory();
   const logout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("userId");
     history.push("/");
   };
 
@@ -32,6 +33,9 @@ const LoggedNav = ({ toggle, Open }) => {
           <NavMenu>
             <NavItem>
               <LinkRouter to="/">Home</LinkRouter>
+            </NavItem>
+            <NavItem>
+              <LinkRouter to="/orders">My Orders</LinkRouter>
             </NavItem>
             <NavBtn>
               <NavBtnLink to="/donate">Donate</NavBtnLink>

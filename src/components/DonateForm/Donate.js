@@ -52,6 +52,8 @@ const donateValidationSchema = Yup.object().shape({
 const Donate = () => {
   const [selectedFile, setselectedFile] = useState("");
 
+  console.log(localStorage.getItem("userId"));
+
   const imageFn = (events) => {
     setselectedFile(events.target.files[0]);
   };
@@ -59,7 +61,7 @@ const Donate = () => {
   const uploadFile = async (values) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("userId", "613ce79004d155338cbfc7dd");
+    formData.append("userId", localStorage.getItem("userId"));
     formData.append("city", values.city);
     formData.append("state", values.state);
     formData.append("zip", values.zip);
