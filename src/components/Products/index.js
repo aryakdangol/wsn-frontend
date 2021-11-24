@@ -59,9 +59,9 @@ const Products = () => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
-  const [Choose, setChoose] = useState(false);
-  const Show = () => {
-    setChoose(!Choose);
+  const [Choose, setChoose] = useState("");
+  const Show = (id) => {
+    setChoose(id);
   };
   return (
     <>
@@ -86,7 +86,7 @@ const Products = () => {
         <Row xs={2} sm={2} md={3} lg={4}>
           {/*       {Array.from({ length: 8 }).map((_, idx) => ( */}
           {products.map((product) => (
-            <Col key={product._id}>
+            <Col id={product._id} key={product._id}>
               <Card className="img-fluid mb-2 mt-4">
                 <Card.Img
                   variant="top"
@@ -94,7 +94,7 @@ const Products = () => {
                 />
                 <Card.Body key={product._id}>
                   <Card.Title>{product.name}</Card.Title>
-                  {Choose ? (
+                  {Choose === product._id ? (
                     <InputGroup className="mb-2" key={product._id}>
                       <Form>
                         <Form.Check type="checkbox" label="Pay for courier" />
@@ -128,13 +128,11 @@ const Products = () => {
                     ""
                   )}
 
-                  {Choose ? (
+                  {Choose === product._id ? (
                     ""
                   ) : (
                     <Col>
-                      <Button key={product._id} onClick={Show}>
-                        Choose
-                      </Button>{" "}
+                      <Button onClick={() => Show(product._id)}>Choose</Button>{" "}
                     </Col>
                   )}
                 </Card.Body>
