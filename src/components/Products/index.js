@@ -17,6 +17,7 @@ import Select from "react-select";
 import LoggedNav from "../navbar/LoggedNav";
 import axios from "axios";
 import url from "../../url";
+import { Formik } from "formik";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -59,9 +60,22 @@ const Products = () => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
-  const [Choose, setChoose] = useState("");
-  const Show = (id) => {
-    setChoose(id);
+  const BuyInitialValues = {
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+  };
+
+  const [Choose, setChoose] = useState({
+    productId: "",
+    donatorId: "",
+  });
+  const Show = (id, userId) => {
+    setChoose({
+      productId: id,
+      donatorId: userId,
+    });
   };
   return (
     <>
@@ -94,45 +108,93 @@ const Products = () => {
                 />
                 <Card.Body key={product._id}>
                   <Card.Title>{product.name}</Card.Title>
-                  {Choose === product._id ? (
-                    <InputGroup className="mb-2" key={product._id}>
-                      <Form>
-                        <Form.Check type="checkbox" label="Pay for courier" />
-                        {product.material_type === "wearable" ? (
-                          <Form.Check
-                            type="checkbox"
-                            label="Pay for laundary"
-                          />
-                        ) : (
-                          ""
-                        )}
-                      </Form>
-                      <Form>
-                        <Row>
-                          <Col xs={4}>
-                            <Form.Control placeholder="Address" />
-                          </Col>
-                          <Col xs={4}>
-                            <Form.Control placeholder="City" />
-                          </Col>
-                          <Col xs={4}>
-                            <Form.Control placeholder="Zip" />
-                          </Col>
-                        </Row>
-                      </Form>
-                      <Col>
-                        <Button type="submit">Buy</Button>{" "}
-                      </Col>
-                    </InputGroup>
+                  {Choose.productId === product._id ? (
+                    <Formik
+                      initialValues={BuyInitialValues}
+                      onSubmit={(values, action) => {
+                        action.setSubmitting(false);
+                        console.log(values);
+                        console.log(Choose);
+                      }}
+                    >
+                      {({
+                        errors,
+                        touched,
+                        handleSubmit,
+                        values,
+                        handleChange,
+                        isSubmitting,
+                        isValid,
+                        setFieldValue,
+                      }) => {
+                        return (
+                          <Form>
+                            <InputGroup className="mb-2">
+                              <Form>
+                                <Form.Check
+                                  type="checkbox"
+                                  label="Pay for courier"
+                                />
+                                {product.material_type === "wearable" ? (
+                                  <Form.Check
+                                    type="checkbox"
+                                    label="Pay for laundary"
+                                  />
+                                ) : (
+                                  ""
+                                )}
+                              </Form>
+                              <Form>
+                                <Row>
+                                  <Col xs={4}>
+                                    <Form.Control
+                                      type="text"
+                                      name="address"
+                                      placeholder="Address"
+                                    />
+                                  </Col>
+                                  <Col xs={4}>
+                                    <Form.Control
+                                      type="text"
+                                      name="city"
+                                      placeholder="City"
+                                    />
+                                  </Col>
+                                  <Col xs={4}>
+                                    <Form.Control
+                                      type="text"
+                                      name="state"
+                                      placeholder="State"
+                                    />
+                                  </Col>
+                                  <Col xs={4}>
+                                    <Form.Control
+                                      type="text"
+                                      name="zip"
+                                      placeholder="Zip"
+                                    />
+                                  </Col>
+                                </Row>
+                              </Form>
+                              <Col>
+                                <Button type="submit">Buy</Button>{" "}
+                              </Col>
+                            </InputGroup>
+                          </Form>
+                        );
+                      }}
+                    </Formik>
                   ) : (
                     ""
                   )}
 
-                  {Choose === product._id ? (
+                  {Choose.productId === product._id ? (
                     ""
                   ) : (
                     <Col>
-                      <Button onClick={() => Show(product._id)}>Choose</Button>{" "}
+                      <Button onClick={() => Show(product._id, product.userId)}>
+                        Choose
+                      </Button>{" "}
                     </Col>
                   )}
                 </Card.Body>
