@@ -58,6 +58,11 @@ const Products = () => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
+  const [Choose, setChoose] = useState(false);
+  const Show = () => {
+    setChoose(!Choose);
+  };
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
@@ -87,21 +92,51 @@ const Products = () => {
                   variant="top"
                   src={arrayBufferToBase64(product.image.data)}
                 />
-                <Card.Body>
-                  <Card.Title>Timro mero sath</Card.Title>
-                  <InputGroup className="mb-2">
-                    <Form>
-                      <Form.Check type="checkbox" label="Pay for courier" />
-                      {product.material_type === "wearable" ? (
-                        <Form.Check type="checkbox" label="Pay for laundary" />
-                      ) : (
-                        ""
-                      )}
-                    </Form>
-                  </InputGroup>
-                  <Col>
-                    <Button type="submit">Buy</Button>{" "}
-                  </Col>
+                <Card.Body key={product._id}>
+                  <Card.Title>{product.name}</Card.Title>
+                  {Choose ? (
+                    <InputGroup className="mb-2" key={product._id}>
+                      <Form>
+                        <Form.Check type="checkbox" label="Pay for courier" />
+                        {product.material_type === "wearable" ? (
+                          <Form.Check
+                            type="checkbox"
+                            label="Pay for laundary"
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </Form>
+                      <Form>
+                        <Row>
+                          <Col xs={4}>
+                            <Form.Control placeholder="Address" />
+                          </Col>
+                          <Col xs={4}>
+                            <Form.Control placeholder="City" />
+                          </Col>
+                          <Col xs={4}>
+                            <Form.Control placeholder="Zip" />
+                          </Col>
+                        </Row>
+                      </Form>
+                      <Col>
+                        <Button type="submit">Buy</Button>{" "}
+                      </Col>
+                    </InputGroup>
+                  ) : (
+                    ""
+                  )}
+
+                  {Choose ? (
+                    ""
+                  ) : (
+                    <Col>
+                      <Button key={product._id} onClick={Show}>
+                        Choose
+                      </Button>{" "}
+                    </Col>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
