@@ -13,12 +13,7 @@ import axios from "axios";
 import url from "../../url";
 
 const donateInitialValues = {
-  username: "",
-  // type: "",
-  // size: "",
-  // count: "",
   description: "",
-  // address: "",
   city: "",
   state: "",
   zip: "",
@@ -30,13 +25,6 @@ const donateInitialValues = {
 };
 
 const donateValidationSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, "Your username is too short")
-    .required("Please enter your username"),
-  // type: "",
-  // size: "",
-  // count: Yup.number().required(),
-  // address: Yup.string().required(),
   city: Yup.string().required(),
   state: Yup.string().required(),
   zip: Yup.string().required(),
@@ -102,34 +90,6 @@ const Donate = () => {
           return (
             <>
               <Form method="post" onSubmit={handleSubmit}>
-                <Row className="mb-3">
-                  <Form.Group
-                    as={Col}
-                    md="4"
-                    controlId="validationFormikUsername"
-                  >
-                    <Form.Label>Username</Form.Label>
-                    <InputGroup hasValidation>
-                      <InputGroup.Text id="inputGroupPrepend">
-                        @
-                      </InputGroup.Text>
-                      <Form.Control
-                        type="text"
-                        placeholder="Username"
-                        aria-describedby="inputGroupPrepend"
-                        name="username"
-                        value={values.username}
-                        onChange={handleChange}
-                        isValid={touched.username && !errors.username}
-                        isInvalid={touched.username && errors.username}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.username}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-
                 <Row className="mb-3">
                   <Form.Group as={Col} md="6" controlId="validationFormik03">
                     <Form.Label>City</Form.Label>
