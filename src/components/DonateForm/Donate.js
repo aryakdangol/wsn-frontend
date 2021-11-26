@@ -13,6 +13,7 @@ import axios from "axios";
 import url from "../../url";
 
 const donateInitialValues = {
+  name: "",
   description: "",
   city: "",
   state: "",
@@ -25,6 +26,7 @@ const donateInitialValues = {
 };
 
 const donateValidationSchema = Yup.object().shape({
+  name: Yup.string().required(),
   city: Yup.string().required(),
   state: Yup.string().required(),
   zip: Yup.string().required(),
@@ -33,7 +35,7 @@ const donateValidationSchema = Yup.object().shape({
     is: "wearable",
     then: Yup.string().required(),
   }),
-  terms: Yup.bool().required().oneOf([true], "Terms must be accepted"),
+  // terms: Yup.bool().required().oneOf([true], "Terms must be accepted"),
   file: Yup.mixed().required("We need a photo!"),
 });
 
@@ -50,6 +52,7 @@ const Donate = () => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", localStorage.getItem("userId"));
+    formData.append("name", values.name);
     formData.append("city", values.city);
     formData.append("state", values.state);
     formData.append("zip", values.zip);
@@ -91,6 +94,21 @@ const Donate = () => {
             <>
               <Form method="post" onSubmit={handleSubmit}>
                 <Row className="mb-3">
+                  <Form.Group as={Col} md="6" controlId="validationFormik02">
+                    <Form.Label>Product Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Product Name"
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      isValid={touched.name && !errors.name}
+                      isInvalid={touched.name && errors.name}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.name}
+                    </Form.Control.Feedback>
+                  </Form.Group>
                   <Form.Group as={Col} md="6" controlId="validationFormik03">
                     <Form.Label>City</Form.Label>
                     <Form.Control
@@ -233,6 +251,7 @@ const Donate = () => {
                     // isInvalid={touched.terms && errors.terms}
                     value={errors.terms}
                     id="validationFormik10"
+                    required
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.terms}
@@ -246,9 +265,7 @@ const Donate = () => {
                     imageFn(event);
                   }}
                 />
-                <Button type="submit" disabled={!isValid || isSubmitting}>
-                  Submit form
-                </Button>
+                <Button type="submit">Submit form</Button>
               </Form>
             </>
           );
