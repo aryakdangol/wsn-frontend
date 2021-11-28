@@ -120,7 +120,6 @@ const Products = () => {
       </Container>
       <Container fluid>
         <Row xs={2} sm={2} md={3} lg={4}>
-          {/*       {Array.from({ length: 8 }).map((_, idx) => ( */}
           {products.map((product) => (
             <Col id={product._id} key={product._id}>
               <Card className="img-fluid mb-2 mt-4">

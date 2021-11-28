@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
 import url from "../../url";
 import LoggedNav from "../navbar/LoggedNav";
 import Sidebar from "../Sidebar";
@@ -29,18 +30,27 @@ function MyOrders() {
       <LoggedNav />
 
       <h1>My Orders</h1>
-      <div>
-        {orders.map((order) => (
-          <div>
-            <strong>ID</strong>
-            {order._id}
-            <strong>Date</strong>
-            {order.orderDate}
-            <strong>Address</strong>
-            {order.donator.address.city}
-          </div>
-        ))}
-      </div>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Donar Location</th>
+            <th>Payment(USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>{order.orderDate}</td>
+              <td>{order.donator.address.city} </td>
+              <td>${order.payment.amount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 }
