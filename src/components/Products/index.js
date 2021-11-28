@@ -18,9 +18,16 @@ import LoggedNav from "../navbar/LoggedNav";
 import axios from "axios";
 import url from "../../url";
 import { Formik } from "formik";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import CurrencyFormat from "react-currency-format";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [payLaundry, setPayLaundry] = useState(false);
+  const [payCourier, setPayCourier] = useState(false);
+  const [clientSecret, setClientSecret] = useState(true);
+  const stripe = useStripe();
+  const elements = useElements();
 
   function arrayBufferToBase64(buffer) {
     var binary = "";
@@ -113,8 +120,19 @@ const Products = () => {
                       initialValues={BuyInitialValues}
                       onSubmit={(values, action) => {
                         action.setSubmitting(false);
-                        console.log(values);
-                        console.log(Choose);
+
+                        if (payCourier || payLaundry) {
+                          let total =
+                            payCourier && payLaundry
+                              ? 40
+                              : payCourier && !payLaundry
+                              ? 25
+                              : 15;
+                          console.log(total);
+                        } else {
+                          console.log(values);
+                          console.log(Choose);
+                        }
                       }}
                     >
                       {({
@@ -134,11 +152,13 @@ const Products = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label="Pay for courier"
+                                  onClick={() => setPayCourier(!payCourier)}
                                 />
                                 {product.material_type === "wearable" ? (
                                   <Form.Check
                                     type="checkbox"
                                     label="Pay for laundary"
+                                    onClick={() => setPayLaundry(!payLaundry)}
                                   />
                                 ) : (
                                   ""
@@ -175,7 +195,37 @@ const Products = () => {
                                     />
                                   </Col>
                                 </Row>
+                                {payLaundry || payCourier ? (
+                                  <>
+                                    <Col>
+                                      <Row>
+                                        <CurrencyFormat
+                                          renderText={(value) => (
+                                            <h5>Total : {value}</h5>
+                                          )}
+                                          decimalScale={0}
+                                          value={
+                                            payCourier && payLaundry
+                                              ? 40
+                                              : payCourier && !payLaundry
+                                              ? 25
+                                              : 15
+                                          }
+                                          displayType={"text"}
+                                          thousandSeparator={true}
+                                          prefix={"$"}
+                                        />
+                                      </Row>
+                                    </Col>
+                                    <Col>
+                                      <CardElement />
+                                    </Col>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                               </Form>
+
                               <Col>
                                 <Button type="submit">Buy</Button>{" "}
                               </Col>
