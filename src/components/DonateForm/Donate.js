@@ -11,6 +11,7 @@ import {
 import * as Yup from "yup";
 import axios from "axios";
 import url from "../../url";
+import { useHistory } from "react-router";
 
 const donateInitialValues = {
   name: "",
@@ -42,6 +43,8 @@ const donateValidationSchema = Yup.object().shape({
 const Donate = () => {
   const [selectedFile, setselectedFile] = useState("");
 
+  const history = useHistory();
+
   console.log(localStorage.getItem("userId"));
 
   const imageFn = (events) => {
@@ -63,6 +66,7 @@ const Donate = () => {
     console.log(formData);
     try {
       await axios.post(`${url}/product`, formData);
+      history.replace("/products");
     } catch (error) {
       console.log(error);
     }

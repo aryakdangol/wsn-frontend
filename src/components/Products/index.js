@@ -46,7 +46,9 @@ const Products = () => {
 
   useEffect(() => {
     axios
-      .get(`${url}/product`)
+      .get(`${url}/product`, {
+        params: { userId: localStorage.getItem("userId") },
+      })
       .then((res) => {
         console.log(res.data.data);
         setProducts(res.data.data);
