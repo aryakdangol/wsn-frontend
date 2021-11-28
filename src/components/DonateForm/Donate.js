@@ -199,7 +199,7 @@ const Donate = () => {
                     ""
                   )}
 
-                  <Form.Group as={Col} md="3" controlId="validationFormik05">
+                  {/*   <Form.Group as={Col} md="3" controlId="validationFormik05">
                     <Form.Label>I can pay for:</Form.Label>
                     <Form.Check
                       type="checkbox"
@@ -224,7 +224,7 @@ const Donate = () => {
                     <Form.Control.Feedback type="invalid">
                       {errors.money}
                     </Form.Control.Feedback>
-                  </Form.Group>
+                  </Form.Group> */}
                 </Row>
                 <Form.Group as={Col} md="4" controlId="validationFormik06">
                   <FloatingLabel
