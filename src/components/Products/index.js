@@ -20,12 +20,15 @@ import url from "../../url";
 import { Formik } from "formik";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
+import * as Yup from "yup";
+import { useHistory } from "react-router";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [payLaundry, setPayLaundry] = useState(false);
   const [payCourier, setPayCourier] = useState(false);
   const [clientSecret, setClientSecret] = useState(true);
+  const history = useHistory();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -72,7 +75,15 @@ const Products = () => {
     city: "",
     state: "",
     zip: "",
+    pay: [],
   };
+
+  const buyValidation = Yup.object().shape({
+    address: Yup.string().required(),
+    city: Yup.string().required(),
+    state: Yup.string().required(),
+    zip: Yup.string().required(),
+  });
 
   const [Choose, setChoose] = useState({
     productId: "",
@@ -118,7 +129,8 @@ const Products = () => {
                   {Choose.productId === product._id ? (
                     <Formik
                       initialValues={BuyInitialValues}
-                      onSubmit={(values, action) => {
+                      validationSchema={buyValidation}
+                      onSubmit={async (values, action) => {
                         action.setSubmitting(false);
 
                         if (payCourier || payLaundry) {
@@ -128,10 +140,45 @@ const Products = () => {
                               : payCourier && !payLaundry
                               ? 25
                               : 15;
-                          console.log(total);
+                          //console.log(total);
+
+                          axios
+                            .post(`${url}/order/payment`, {
+                              total: total * 100,
+                            })
+                            .then((res) => {
+                              /*   console.log(
+                                "CLIENT SECRET>>>",
+                                res.data.clientSecret
+                              ); */
+                              stripe
+                                .confirmCardPayment(res.data.clientSecret, {
+                                  payment_method: {
+                                    card: elements.getElement(CardElement),
+                                  },
+                                })
+                                .then(({ paymentIntent }) => {
+                                  /*  history.replace("/orders"); */
+                                  console.log(paymentIntent);
+                                  axios.post(`${url}/order`, {
+                                    paymentId: paymentIntent.id,
+                                    amount: paymentIntent.amount,
+                                    currency: paymentIntent.currency,
+                                    created: paymentIntent.created,
+                                    type:
+                                      payLaundry && payCourier
+                                        ? "Paid for Laundry and Courier"
+                                        : payLaundry && !payCourier
+                                        ? "Paid for Laundry Only"
+                                        : "Paid for Courier Only",
+                                  });
+                                })
+                                .catch((e) => console.log(e));
+                            })
+                            .catch((e) => console.log(e));
                         } else {
-                          console.log(values);
-                          console.log(Choose);
+                          console.log("VALUES >>>", values);
+                          console.log("BRUH>>>", Choose);
                         }
                       }}
                     >
@@ -146,7 +193,7 @@ const Products = () => {
                         setFieldValue,
                       }) => {
                         return (
-                          <Form>
+                          <Form method="post" onSubmit={handleSubmit}>
                             <InputGroup className="mb-2">
                               <Form>
                                 <Form.Check
@@ -171,6 +218,14 @@ const Products = () => {
                                       type="text"
                                       name="address"
                                       placeholder="Address"
+                                      value={values.address}
+                                      onChange={handleChange}
+                                      isValid={
+                                        touched.address && !errors.address
+                                      }
+                                      isInvalid={
+                                        touched.address && errors.address
+                                      }
                                     />
                                   </Col>
                                   <Col xs={4}>
@@ -178,6 +233,10 @@ const Products = () => {
                                       type="text"
                                       name="city"
                                       placeholder="City"
+                                      value={values.city}
+                                      onChange={handleChange}
+                                      isValid={touched.city && !errors.city}
+                                      isInvalid={touched.city && errors.city}
                                     />
                                   </Col>
                                   <Col xs={4}>
@@ -185,6 +244,10 @@ const Products = () => {
                                       type="text"
                                       name="state"
                                       placeholder="State"
+                                      value={values.state}
+                                      onChange={handleChange}
+                                      isValid={touched.state && !errors.state}
+                                      isInvalid={touched.state && errors.state}
                                     />
                                   </Col>
                                   <Col xs={4}>
@@ -192,6 +255,10 @@ const Products = () => {
                                       type="text"
                                       name="zip"
                                       placeholder="Zip"
+                                      value={values.zip}
+                                      onChange={handleChange}
+                                      isValid={touched.zip && !errors.zip}
+                                      isInvalid={touched.zip && errors.zip}
                                     />
                                   </Col>
                                 </Row>
@@ -227,7 +294,12 @@ const Products = () => {
                               </Form>
 
                               <Col>
-                                <Button type="submit">Buy</Button>{" "}
+                                <Button
+                                  type="submit"
+                                  disabled={!isValid || isSubmitting}
+                                >
+                                  Buy
+                                </Button>{" "}
                               </Col>
                             </InputGroup>
                           </Form>
