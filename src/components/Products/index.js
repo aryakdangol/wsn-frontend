@@ -18,10 +18,21 @@ import LoggedNav from "../navbar/LoggedNav";
 import axios from "axios";
 import url from "../../url";
 import { Formik } from "formik";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import CurrencyFormat from "react-currency-format";
 import * as Yup from "yup";
+import { useHistory } from "react-router";
 
 const Products = () => {
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
   const [products, setProducts] = useState([]);
+  const [payLaundry, setPayLaundry] = useState(false);
+  const [payCourier, setPayCourier] = useState(false);
+  const [clientSecret, setClientSecret] = useState(true);
+  const history = useHistory();
+  const stripe = useStripe();
+  const elements = useElements();
 
   function arrayBufferToBase64(buffer) {
     var binary = "";
@@ -120,10 +131,78 @@ const Products = () => {
                     <Formik
                       initialValues={BuyInitialValues}
                       validationSchema={buyValidation}
-                      onSubmit={(values, action) => {
+                      onSubmit={async (values, action) => {
                         action.setSubmitting(false);
-                        console.log(values);
-                        console.log(Choose);
+
+                        if (payCourier || payLaundry) {
+                          let total =
+                            payCourier && payLaundry
+                              ? 40
+                              : payCourier && !payLaundry
+                              ? 25
+                              : 15;
+                          //console.log(total);
+
+                          axios
+                            .post(`${url}/order/payment`, {
+                              total: total * 100,
+                            })
+                            .then((res) => {
+                              /*   console.log(
+                                "CLIENT SECRET>>>",
+                                res.data.clientSecret
+                              ); */
+                              stripe
+                                .confirmCardPayment(res.data.clientSecret, {
+                                  payment_method: {
+                                    card: elements.getElement(CardElement),
+                                  },
+                                })
+                                .then(({ paymentIntent }) => {
+                                  /*  history.replace("/orders"); */
+                                  console.log(paymentIntent);
+                                  axios
+                                    .post(`${url}/order`, {
+                                      paymentId: paymentIntent.id,
+                                      amount: paymentIntent.amount,
+                                      currency: paymentIntent.currency,
+                                      created: paymentIntent.created,
+                                      type:
+                                        payLaundry && payCourier
+                                          ? "Paid for Laundry and Courier"
+                                          : payLaundry && !payCourier
+                                          ? "Paid for Laundry Only"
+                                          : "Paid for Courier Only",
+                                      productId: Choose.productId,
+                                      donatorId: Choose.donatorId,
+                                      recieverId: userId,
+                                      city: values.city,
+                                      street: values.address,
+                                      state: values.state,
+                                      zip: values.zip,
+                                    })
+                                    .then((res) => history.replace("/orders"))
+                                    .catch((e) => console.log(e));
+                                })
+                                .catch((e) => console.log(e));
+                            })
+                            .catch((e) => console.log(e));
+                        } else {
+                          console.log("VALUES >>>", values);
+                          console.log("BRUH>>>", Choose);
+                          axios
+                            .post(`${url}/order`, {
+                              productId: Choose.productId,
+                              donatorId: Choose.donatorId,
+                              recieverId: userId,
+                              city: values.city,
+                              street: values.address,
+                              state: values.state,
+                              zip: values.zip,
+                            })
+                            .then((res) => history.replace("/orders"))
+                            .catch((e) => console.log(e));
+                        }
                       }}
                     >
                       {({
@@ -143,11 +222,13 @@ const Products = () => {
                                 <Form.Check
                                   type="checkbox"
                                   label="Pay for courier"
+                                  onClick={() => setPayCourier(!payCourier)}
                                 />
                                 {product.material_type === "wearable" ? (
                                   <Form.Check
                                     type="checkbox"
                                     label="Pay for laundary"
+                                    onClick={() => setPayLaundry(!payLaundry)}
                                   />
                                 ) : (
                                   ""
@@ -204,7 +285,37 @@ const Products = () => {
                                     />
                                   </Col>
                                 </Row>
+                                {payLaundry || payCourier ? (
+                                  <>
+                                    <Col>
+                                      <Row>
+                                        <CurrencyFormat
+                                          renderText={(value) => (
+                                            <h5>Total : {value}</h5>
+                                          )}
+                                          decimalScale={0}
+                                          value={
+                                            payCourier && payLaundry
+                                              ? 40
+                                              : payCourier && !payLaundry
+                                              ? 25
+                                              : 15
+                                          }
+                                          displayType={"text"}
+                                          thousandSeparator={true}
+                                          prefix={"$"}
+                                        />
+                                      </Row>
+                                    </Col>
+                                    <Col>
+                                      <CardElement />
+                                    </Col>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                               </Form>
+
                               <Col>
                                 <Button
                                   type="submit"
