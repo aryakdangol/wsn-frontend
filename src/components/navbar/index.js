@@ -37,7 +37,7 @@ const Navbar = ({ toggle, Open }) => {
               <NavLinks to="gallery">Gallery</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks to="about">About</NavLinks>
+              <LinkRouter to="/about">About</LinkRouter>
             </NavItem>
             <NavItem>
               <NavLinks to="engage">Engage</NavLinks>

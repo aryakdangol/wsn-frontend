@@ -101,6 +101,8 @@ const Products = () => {
     donatorId: "",
   });
   const Show = (id, userId) => {
+    setPayCourier(false);
+    setPayLaundry(false);
     setChoose({
       productId: id,
       donatorId: userId,
