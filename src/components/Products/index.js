@@ -30,6 +30,7 @@ const Products = () => {
   const [payLaundry, setPayLaundry] = useState(false);
   const [payCourier, setPayCourier] = useState(false);
   const [clientSecret, setClientSecret] = useState(true);
+  const [options, setOptions] = useState([]);
   const history = useHistory();
   const stripe = useStripe();
   const elements = useElements();
@@ -54,6 +55,11 @@ const Products = () => {
         setProducts(res.data.data);
       })
       .catch((e) => console.log(e));
+
+    axios
+      .get(`${url}/product/search`)
+      .then((res) => setOptions(res.data.data))
+      .catch((e) => console.log(e));
   }, []);
 
   /*   const url =
@@ -68,12 +74,12 @@ const Products = () => {
   const Open = () => {
     setOpen(!Clicked);
   };
-  const options = [
+  /*   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
-
+ */
   const BuyInitialValues = {
     address: "",
     city: "",
