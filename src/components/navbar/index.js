@@ -42,6 +42,7 @@ const Navbar = ({ toggle, Open }) => {
               <a
                 className="navA"
                 href="https://forms.gle/dxL1gB72CvKjGxfy6"
+                target="_blank"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 Engage
