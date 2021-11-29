@@ -25,7 +25,7 @@ import { useHistory } from "react-router";
 
 const Products = () => {
   const userId = localStorage.getItem("userId");
-  console.log(userId);
+
   const [products, setProducts] = useState([]);
   const [payLaundry, setPayLaundry] = useState(false);
   const [payCourier, setPayCourier] = useState(false);
@@ -34,6 +34,7 @@ const Products = () => {
   const history = useHistory();
   const stripe = useStripe();
   const elements = useElements();
+  let [productArray, setProductArray] = useState([]);
 
   function arrayBufferToBase64(buffer) {
     var binary = "";
@@ -51,8 +52,8 @@ const Products = () => {
         params: { userId: localStorage.getItem("userId") },
       })
       .then((res) => {
-        console.log(res.data.data);
         setProducts(res.data.data);
+        setProductArray(res.data.data);
       })
       .catch((e) => console.log(e));
 
@@ -105,6 +106,16 @@ const Products = () => {
       donatorId: userId,
     });
   };
+
+  const ChangeLocation = (val) => {
+    if (val.value === "All") {
+      setProductArray(products);
+    } else {
+      productArray = products;
+      setProductArray(productArray.filter((i) => i.city === val.value));
+    }
+  };
+
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
@@ -114,7 +125,12 @@ const Products = () => {
       <Container className="mt-4 ">
         <Row className="justify-content-md-center">
           <Col md="6">
-            <Select options={options} placeholder="Search location" />
+            <Select
+              defaultValue={{ label: "All", value: "All" }}
+              options={options}
+              placeholder="Search location"
+              onChange={(e) => ChangeLocation(e)}
+            />
             {/* <Form.Select className=" mb-2 mt-4">
           <option>Choose your location</option>
           <option value="1">One</option>
@@ -126,235 +142,248 @@ const Products = () => {
       </Container>
       <Container fluid>
         <Row xs={2} sm={2} md={3} lg={4}>
-          {products.map((product) => (
-            <Col id={product._id} key={product._id}>
-              <Card className="img-fluid mb-2 mt-4">
-                <Card.Img
-                  variant="top"
-                  src={arrayBufferToBase64(product.image.data)}
-                />
-                <Card.Body key={product._id}>
-                  <Card.Title>{product.name}</Card.Title>
-                  {Choose.productId === product._id ? (
-                    <Formik
-                      initialValues={BuyInitialValues}
-                      validationSchema={buyValidation}
-                      onSubmit={async (values, action) => {
-                        action.setSubmitting(false);
+          {productArray.length != 0
+            ? productArray.map((product) => (
+                <Col id={product._id} key={product._id}>
+                  <Card className="img-fluid mb-2 mt-4">
+                    <Card.Img
+                      variant="top"
+                      src={arrayBufferToBase64(product.image.data)}
+                    />
+                    <Card.Body key={product._id}>
+                      <Card.Title>{product.name}</Card.Title>
+                      {Choose.productId === product._id ? (
+                        <Formik
+                          initialValues={BuyInitialValues}
+                          validationSchema={buyValidation}
+                          onSubmit={async (values, action) => {
+                            action.setSubmitting(false);
 
-                        if (payCourier || payLaundry) {
-                          let total =
-                            payCourier && payLaundry
-                              ? 40
-                              : payCourier && !payLaundry
-                              ? 25
-                              : 15;
-                          //console.log(total);
+                            if (payCourier || payLaundry) {
+                              let total =
+                                payCourier && payLaundry
+                                  ? 40
+                                  : payCourier && !payLaundry
+                                  ? 25
+                                  : 15;
+                              //console.log(total);
 
-                          axios
-                            .post(`${url}/order/payment`, {
-                              total: total * 100,
-                            })
-                            .then((res) => {
-                              /*   console.log(
+                              axios
+                                .post(`${url}/order/payment`, {
+                                  total: total * 100,
+                                })
+                                .then((res) => {
+                                  /*   console.log(
                                 "CLIENT SECRET>>>",
                                 res.data.clientSecret
                               ); */
-                              stripe
-                                .confirmCardPayment(res.data.clientSecret, {
-                                  payment_method: {
-                                    card: elements.getElement(CardElement),
-                                  },
-                                })
-                                .then(({ paymentIntent }) => {
-                                  /*  history.replace("/orders"); */
-                                  console.log(paymentIntent);
-                                  axios
-                                    .post(`${url}/order`, {
-                                      paymentId: paymentIntent.id,
-                                      amount: paymentIntent.amount,
-                                      currency: paymentIntent.currency,
-                                      created: paymentIntent.created,
-                                      type:
-                                        payLaundry && payCourier
-                                          ? "Paid for Laundry and Courier"
-                                          : payLaundry && !payCourier
-                                          ? "Paid for Laundry Only"
-                                          : "Paid for Courier Only",
-                                      productId: Choose.productId,
-                                      donatorId: Choose.donatorId,
-                                      recieverId: userId,
-                                      city: values.city,
-                                      street: values.address,
-                                      state: values.state,
-                                      zip: values.zip,
+                                  stripe
+                                    .confirmCardPayment(res.data.clientSecret, {
+                                      payment_method: {
+                                        card: elements.getElement(CardElement),
+                                      },
                                     })
-                                    .then((res) => history.replace("/orders"))
+                                    .then(({ paymentIntent }) => {
+                                      /*  history.replace("/orders"); */
+                                      console.log(paymentIntent);
+                                      axios
+                                        .post(`${url}/order`, {
+                                          paymentId: paymentIntent.id,
+                                          amount: paymentIntent.amount,
+                                          currency: paymentIntent.currency,
+                                          created: paymentIntent.created,
+                                          type:
+                                            payLaundry && payCourier
+                                              ? "Paid for Laundry and Courier"
+                                              : payLaundry && !payCourier
+                                              ? "Paid for Laundry Only"
+                                              : "Paid for Courier Only",
+                                          productId: Choose.productId,
+                                          donatorId: Choose.donatorId,
+                                          recieverId: userId,
+                                          city: values.city,
+                                          street: values.address,
+                                          state: values.state,
+                                          zip: values.zip,
+                                        })
+                                        .then((res) =>
+                                          history.replace("/orders")
+                                        )
+                                        .catch((e) => console.log(e));
+                                    })
                                     .catch((e) => console.log(e));
                                 })
                                 .catch((e) => console.log(e));
-                            })
-                            .catch((e) => console.log(e));
-                        } else {
-                          console.log("VALUES >>>", values);
-                          console.log("BRUH>>>", Choose);
-                          axios
-                            .post(`${url}/order`, {
-                              productId: Choose.productId,
-                              donatorId: Choose.donatorId,
-                              recieverId: userId,
-                              city: values.city,
-                              street: values.address,
-                              state: values.state,
-                              zip: values.zip,
-                            })
-                            .then((res) => history.replace("/orders"))
-                            .catch((e) => console.log(e));
-                        }
-                      }}
-                    >
-                      {({
-                        errors,
-                        touched,
-                        handleSubmit,
-                        values,
-                        handleChange,
-                        isSubmitting,
-                        isValid,
-                        setFieldValue,
-                      }) => {
-                        return (
-                          <Form method="post" onSubmit={handleSubmit}>
-                            <InputGroup className="mb-2">
-                              <Form>
-                                <Form.Check
-                                  type="checkbox"
-                                  label="Pay for courier"
-                                  onClick={() => setPayCourier(!payCourier)}
-                                />
-                                {product.material_type === "wearable" ? (
-                                  <Form.Check
-                                    type="checkbox"
-                                    label="Pay for laundary"
-                                    onClick={() => setPayLaundry(!payLaundry)}
-                                  />
-                                ) : (
-                                  ""
-                                )}
-                              </Form>
-                              <Form>
-                                <Row>
-                                  <Col xs={4}>
-                                    <Form.Control
-                                      type="text"
-                                      name="address"
-                                      placeholder="Address"
-                                      value={values.address}
-                                      onChange={handleChange}
-                                      isValid={
-                                        touched.address && !errors.address
-                                      }
-                                      isInvalid={
-                                        touched.address && errors.address
-                                      }
+                            } else {
+                              console.log("VALUES >>>", values);
+                              console.log("BRUH>>>", Choose);
+                              axios
+                                .post(`${url}/order`, {
+                                  productId: Choose.productId,
+                                  donatorId: Choose.donatorId,
+                                  recieverId: userId,
+                                  city: values.city,
+                                  street: values.address,
+                                  state: values.state,
+                                  zip: values.zip,
+                                })
+                                .then((res) => history.replace("/orders"))
+                                .catch((e) => console.log(e));
+                            }
+                          }}
+                        >
+                          {({
+                            errors,
+                            touched,
+                            handleSubmit,
+                            values,
+                            handleChange,
+                            isSubmitting,
+                            isValid,
+                            setFieldValue,
+                          }) => {
+                            return (
+                              <Form method="post" onSubmit={handleSubmit}>
+                                <InputGroup className="mb-2">
+                                  <Form>
+                                    <Form.Check
+                                      type="checkbox"
+                                      label="Pay for courier"
+                                      onClick={() => setPayCourier(!payCourier)}
                                     />
-                                  </Col>
-                                  <Col xs={4}>
-                                    <Form.Control
-                                      type="text"
-                                      name="city"
-                                      placeholder="City"
-                                      value={values.city}
-                                      onChange={handleChange}
-                                      isValid={touched.city && !errors.city}
-                                      isInvalid={touched.city && errors.city}
-                                    />
-                                  </Col>
-                                  <Col xs={4}>
-                                    <Form.Control
-                                      type="text"
-                                      name="state"
-                                      placeholder="State"
-                                      value={values.state}
-                                      onChange={handleChange}
-                                      isValid={touched.state && !errors.state}
-                                      isInvalid={touched.state && errors.state}
-                                    />
-                                  </Col>
-                                  <Col xs={4}>
-                                    <Form.Control
-                                      type="text"
-                                      name="zip"
-                                      placeholder="Zip"
-                                      value={values.zip}
-                                      onChange={handleChange}
-                                      isValid={touched.zip && !errors.zip}
-                                      isInvalid={touched.zip && errors.zip}
-                                    />
-                                  </Col>
-                                </Row>
-                                {payLaundry || payCourier ? (
-                                  <>
-                                    <Col>
-                                      <Row>
-                                        <CurrencyFormat
-                                          renderText={(value) => (
-                                            <h5>Total : {value}</h5>
-                                          )}
-                                          decimalScale={0}
-                                          value={
-                                            payCourier && payLaundry
-                                              ? 40
-                                              : payCourier && !payLaundry
-                                              ? 25
-                                              : 15
+                                    {product.material_type === "wearable" ? (
+                                      <Form.Check
+                                        type="checkbox"
+                                        label="Pay for laundary"
+                                        onClick={() =>
+                                          setPayLaundry(!payLaundry)
+                                        }
+                                      />
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Form>
+                                  <Form>
+                                    <Row>
+                                      <Col xs={4}>
+                                        <Form.Control
+                                          type="text"
+                                          name="address"
+                                          placeholder="Address"
+                                          value={values.address}
+                                          onChange={handleChange}
+                                          isValid={
+                                            touched.address && !errors.address
                                           }
-                                          displayType={"text"}
-                                          thousandSeparator={true}
-                                          prefix={"$"}
+                                          isInvalid={
+                                            touched.address && errors.address
+                                          }
                                         />
-                                      </Row>
-                                    </Col>
-                                    <Col>
-                                      <CardElement />
-                                    </Col>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
+                                      </Col>
+                                      <Col xs={4}>
+                                        <Form.Control
+                                          type="text"
+                                          name="city"
+                                          placeholder="City"
+                                          value={values.city}
+                                          onChange={handleChange}
+                                          isValid={touched.city && !errors.city}
+                                          isInvalid={
+                                            touched.city && errors.city
+                                          }
+                                        />
+                                      </Col>
+                                      <Col xs={4}>
+                                        <Form.Control
+                                          type="text"
+                                          name="state"
+                                          placeholder="State"
+                                          value={values.state}
+                                          onChange={handleChange}
+                                          isValid={
+                                            touched.state && !errors.state
+                                          }
+                                          isInvalid={
+                                            touched.state && errors.state
+                                          }
+                                        />
+                                      </Col>
+                                      <Col xs={4}>
+                                        <Form.Control
+                                          type="text"
+                                          name="zip"
+                                          placeholder="Zip"
+                                          value={values.zip}
+                                          onChange={handleChange}
+                                          isValid={touched.zip && !errors.zip}
+                                          isInvalid={touched.zip && errors.zip}
+                                        />
+                                      </Col>
+                                    </Row>
+                                    {payLaundry || payCourier ? (
+                                      <>
+                                        <Col>
+                                          <Row>
+                                            <CurrencyFormat
+                                              renderText={(value) => (
+                                                <h5>Total : {value}</h5>
+                                              )}
+                                              decimalScale={0}
+                                              value={
+                                                payCourier && payLaundry
+                                                  ? 40
+                                                  : payCourier && !payLaundry
+                                                  ? 25
+                                                  : 15
+                                              }
+                                              displayType={"text"}
+                                              thousandSeparator={true}
+                                              prefix={"$"}
+                                            />
+                                          </Row>
+                                        </Col>
+                                        <Col>
+                                          <CardElement />
+                                        </Col>
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </Form>
+
+                                  <Col>
+                                    <Button
+                                      type="submit"
+                                      disabled={!isValid || isSubmitting}
+                                    >
+                                      Buy
+                                    </Button>{" "}
+                                  </Col>
+                                </InputGroup>
                               </Form>
+                            );
+                          }}
+                        </Formik>
+                      ) : (
+                        ""
+                      )}
 
-                              <Col>
-                                <Button
-                                  type="submit"
-                                  disabled={!isValid || isSubmitting}
-                                >
-                                  Buy
-                                </Button>{" "}
-                              </Col>
-                            </InputGroup>
-                          </Form>
-                        );
-                      }}
-                    </Formik>
-                  ) : (
-                    ""
-                  )}
-
-                  {Choose.productId === product._id ? (
-                    ""
-                  ) : (
-                    <Col>
-                      <Button onClick={() => Show(product._id, product.userId)}>
-                        Choose
-                      </Button>{" "}
-                    </Col>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-          {/*        ))} */}
+                      {Choose.productId === product._id ? (
+                        ""
+                      ) : (
+                        <Col>
+                          <Button
+                            onClick={() => Show(product._id, product.userId)}
+                          >
+                            Choose
+                          </Button>{" "}
+                        </Col>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
+            : "NO PRODUCT AT THE MOMENT"}
         </Row>
       </Container>
     </>
