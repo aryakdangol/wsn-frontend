@@ -46,7 +46,7 @@ const Signup = () => {
         initialValues={SignUpInitialValues}
         validationSchema={SignUpValidationSchema}
         onSubmit={(values, actions) => {
-          //console.log(values);
+          console.log(values);
           actions.setSubmitting(false);
           //actions.resetForm();
           axios
@@ -69,7 +69,7 @@ const Signup = () => {
               }
             })
             .catch((e) => {
-              console.log(e);
+              console.log(e.message);
               Swal.fire({
                 icon: "error",
                 title: "Ooops..",
