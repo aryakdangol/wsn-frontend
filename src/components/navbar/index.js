@@ -20,7 +20,6 @@ const Navbar = ({ toggle, Open }) => {
     localStorage.removeItem("auth_token");
     history.push("/");
   };
-
   return (
     <>
       <Nav>
@@ -40,7 +39,13 @@ const Navbar = ({ toggle, Open }) => {
               <LinkRouter to="/about">About</LinkRouter>
             </NavItem>
             <NavItem>
-              <NavLinks to="engage">Engage</NavLinks>
+              <a
+                className="navA"
+                href="https://forms.gle/dxL1gB72CvKjGxfy6"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Engage
+              </a>
             </NavItem>
             <NavBtn>
               {!localStorage.getItem("auth_token") ? (
