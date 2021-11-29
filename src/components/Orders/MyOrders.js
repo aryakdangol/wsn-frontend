@@ -35,6 +35,7 @@ function MyOrders() {
         <thead>
           <tr>
             <th>Order ID</th>
+            <th>Product Name</th>
             <th>Date</th>
             <th>Donar Location</th>
             <th>Payment(USD)</th>
@@ -44,6 +45,7 @@ function MyOrders() {
           {orders.map((order) => (
             <tr key={order._id}>
               <td>{order._id}</td>
+              <td>{order.productName}</td>
               <td>{order.orderDate}</td>
               <td>{order.donator.address.city} </td>
               <td>${order.payment.amount}</td>

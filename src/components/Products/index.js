@@ -126,6 +126,8 @@ const Products = () => {
                 <Card.Img
                   variant="top"
                   src={arrayBufferToBase64(product.image.data)}
+                  width="200"
+                  height="400"
                 />
                 <Card.Body key={product._id}>
                   <Card.Title>{product.name}</Card.Title>
