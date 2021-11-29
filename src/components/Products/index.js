@@ -154,6 +154,7 @@ const Products = () => {
                     />
                     <Card.Body key={product._id}>
                       <Card.Title>{product.name}</Card.Title>
+                      {product.description}
                       {Choose.productId === product._id ? (
                         <Formik
                           initialValues={BuyInitialValues}
