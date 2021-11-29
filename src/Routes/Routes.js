@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import DonatePage from "../pages/donate";
 import MyOrders from "../components/Orders/MyOrders";
 import ProdcutPrivateRoute from "./ProdcutPrivateRoute";
+import About from "../pages/about";
 
 function Routes() {
   return (
@@ -17,6 +18,7 @@ function Routes() {
       <PrivateRoute path="/donate" component={DonatePage} />
       <PrivateRoute path="/orders" component={MyOrders} />
       <Route path="/login" component={Login} />
+      <Route path="/about" component={About} />
       <Route path="/signup" component={SignUp} />
     </Switch>
   );
