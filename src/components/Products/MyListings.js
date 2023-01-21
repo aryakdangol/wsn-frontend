@@ -43,11 +43,10 @@ function MyListings() {
         <tbody>
           {orders.map((order) => (
             <tr key={order._id}>
-              <td>{order._id}</td>
               <td>{order.name}</td>
               <td>{order.timestamp}</td>
               <td>{order.city} </td>
-              <td>${order.description}</td>
+              <td>{order.description}</td>
             </tr>
           ))}
         </tbody>
