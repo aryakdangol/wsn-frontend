@@ -37,6 +37,9 @@ const LoggedNav = ({ toggle, Open }) => {
             <NavItem>
               <LinkRouter to="/orders">My Orders</LinkRouter>
             </NavItem>
+            <NavItem>
+              <LinkRouter to="/listings">My Listings</LinkRouter>
+            </NavItem>
             <NavBtn>
               <NavBtnLink to="/donate">Donate</NavBtnLink>
             </NavBtn>

@@ -9,6 +9,7 @@ import DonatePage from "../pages/donate";
 import MyOrders from "../components/Orders/MyOrders";
 import ProdcutPrivateRoute from "./ProdcutPrivateRoute";
 import About from "../pages/about";
+import MyListings from "../components/Products/MyListings";
 
 function Routes() {
   return (
@@ -17,6 +18,7 @@ function Routes() {
       <ProdcutPrivateRoute path="/products" component={ProductsPage} />
       <PrivateRoute path="/donate" component={DonatePage} />
       <PrivateRoute path="/orders" component={MyOrders} />
+      <PrivateRoute path="/listings" component={MyListings} />
       <Route path="/login" component={Login} />
       <Route path="/about" component={About} />
       <Route path="/signup" component={SignUp} />

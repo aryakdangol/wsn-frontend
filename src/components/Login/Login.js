@@ -53,6 +53,12 @@ const Login = () => {
                 localStorage.setItem("auth_token", res.data.auth);
                 localStorage.setItem("userId", res.data.data.userId);
                 history.push("/products");
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Ooops.",
+                  text: "Incorrect Username or Password",
+                });
               }
             })
             .catch((e) => {
